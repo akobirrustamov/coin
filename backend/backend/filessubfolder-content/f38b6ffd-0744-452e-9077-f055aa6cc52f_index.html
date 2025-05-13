@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>LabVIEW Savollar va Javoblar</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f9f9f9; }
+        .qa-container { margin-bottom: 12px; }
+        .question { color: red; font-weight: bold; }
+        .answer { color: green; margin-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="qa-container">
+        <div class="question">LabVIEW da yuzadagi panel nima?</div>
+        <div class="answer">virtual uskunaning interfaol foydalanadigan interfeysi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da diagrammalar-bloki nima?</div>
+        <div class="answer">LabVIEW grafik dasturlash tilida yaratilgan dastur kodi deb aytiladi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da “boshqarish elementi” nima?</div>
+        <div class="answer">foydalanuvchi kiritadigan ma`lumotlar</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da “indikator” nima?</div>
+        <div class="answer">foydalanuvchiga chiqariladigadigan ma`lumotlar</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Odatda diagrammalar-bloki nimalardan iborta bo`ladi?</div>
+        <div class="answer">terminallar, bog`lamlar, o`tkazgichlar</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da diagrammalar-blokida bir xil tipdagi boshqarish elementlari va indikatorlar nimasi bilan farqlanadi?</div>
+        <div class="answer">Terminallar ramkasi yog`on yoki maylinligi bilan</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da ma`lumotlar bog`lami nima?</div>
+        <div class="answer">bu dasturning ixtiyoriy bajariluvchi elementining umumiy nomi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da virtual uskunadagi diagrammalar blokida “Qo`shish” funktsiyasi joylashgan. Bu diagramma blokida qanday tipdagi ob`yekt turiga kiradi?</div>
+        <div class="answer">Bog`lamlar</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW dasturini bajarilishini boshqarish tamoyili nima?</div>
+        <div class="answer">Ma`lumotlar oqimi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da VIU(virtual ichki uskuna) nima?</div>
+        <div class="answer">bu VU(virtual uskuna) bo`lib, uni siz boshqa VU dan chaqirasiz</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da “Belgi (Label)” nima?</div>
+        <div class="answer">yuzadagi panel va diagrammalar blokidagi komponentlarni nomlovchi matn bloki</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da necha xil belgi turi mavjud?</div>
+        <div class="answer">3</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da belgilarning birinchi turi qanday nomlanadi?</div>
+        <div class="answer">Shaxsiy</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da belgilarning ikkinchi turi qanday nomlanadi?</div>
+        <div class="answer">O`tkazgichlar</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da belgilarning uchinchi turi qanday nomlanadi?</div>
+        <div class="answer">Erkin</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da “Sarlavha” nima?</div>
+        <div class="answer">matn hisoblanib, u boshqaruvchi element yoki indikatorni izohlaydi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da “O`tkazuvchilar belgisi” nima?</div>
+        <div class="answer">diagrammalar blokini izohlash uchun juda qulay vositadir</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW tuzilishlarda faqatgina o`tkazgich va tuzilish chegarasi kesishgan nuqtada …… yaratiladi. U nima?</div>
+        <div class="answer">“tunnel”</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da “Qadamba-qadam” bajarilish nima uchun kerak?</div>
+        <div class="answer">Xatolarni topish uchun</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da “To`xtatish nuqtasi” nima uchun kerak?</div>
+        <div class="answer">Xatolarni topish uchun</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da asosiy necha xildagi sikllar mavjud?</div>
+        <div class="answer">2</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da tuzilishlar nima?</div>
+        <div class="answer">Oddiy dasturlash tillari operatorlariga o`xshab virtual uskuna bajarilishini boshqaradi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da siklarning birinchi turi(iteratsiyalar sonini qayd etish) tuzilishi nomini to`g`ri belgilang?</div>
+        <div class="answer">For Loop</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da siklarning ikkinchi turi(shart bo`yicha sikl) tuzilishi nomini to`g`ri belgilang?</div>
+        <div class="answer">While Loop</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da For Loop siklini takroran bajarilishi sikl tarkibiga kirgan massivga bog`liqmi?</div>
+        <div class="answer">Avtoindekslashga bog`liq</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da For Loop siklini muddatdan oldin to`xtatish mumkin?</div>
+        <div class="answer">Maxsus terminal yordamida</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da While Loop sikli standart holatda qaysi mantiqiy qiymatda takrorlash to`xtatiladi?</div>
+        <div class="answer">True</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da While Loop siklini “yo`q” mantiqiy qiymatda takrorlash to`xtatilishini ta`minlash maqsadida yordamchi menyuning qaysi optsiyasidan foydalanish zarur?</div>
+        <div class="answer">Continue if True</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da iteratsiyalar sonini qayd etish siklini muddatdan oldin shart bo`yicha to`xtatish imkoniyatini ta`minlash uchun yordamchi menyuning qaysi optsiyasidan foydalanish zarur?</div>
+        <div class="answer">conditional terminal</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">“Shart bo`yicha sikl doimo bir marotaba bo`lsa hamki bajariladi, iteratsiyalar sonini qayd etish sikli esa bir marotaba ham bajarilmasligi mumkin” degan fikr to`grimi?</div>
+        <div class="answer">While Loop va For Loop siklida</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da siljuvchan registrlarni sikl tuzilishlarining yordamchi menyuning qaysi optsiyasi yordamida paydo qilish mumkin?</div>
+        <div class="answer">Add shift register</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Variant tuzilmasini ishlatganda standart qanday variantlar avtomatik mavjud bo`ladi?</div>
+        <div class="answer">True va False</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Formula bog`lamiga qiymat kiritish uchun yordamchi menyuning qaysi optsiyasidan foydalanish kerak?</div>
+        <div class="answer">Add Input</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Formula bog`lamiga qiymat chiqarish uchun yordamchi menyuning qaysi optsiyasidan foydalanish kerak?</div>
+        <div class="answer">Add Output</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Formula bog`lamida har bir formula ifodasi oxirida qaysi belgi bilan yakunlanishi zarur?</div>
+        <div class="answer">;</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da massiv elementlari tartibi doim nechadan boshlanadi?</div>
+        <div class="answer">0</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da massivlarni yuzadagi panelda yaratish uchun qaysi paneldan foydalanish kerak?</div>
+        <div class="answer">Modern >> Array Matrix&Cluster</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da massiv terminalini oddiy terminallardan nimasi bilan farqlash mumkin ?</div>
+        <div class="answer">Kvadrat qavslar mavjudligi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da siklda 100 marotaba takrorlashlar soni ko`rsatilgan va unda 37 elementdan iborat bir o`lchamli massiv avtoindekslash yoqilgan holatda ulangan. Sikl necha marotaba takrorlanadi?</div>
+        <div class="answer">37</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da siklda 100 marotaba takrorlashlar soni ko`rsatilgan va unda 137 elementdan iborat bir o`lchamli massiv avtoindekslash yoqilgan holatda ulangan. Sikl necha marotaba takrorlanadi?</div>
+        <div class="answer">100</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da klasterning massivdan farqi nimada?</div>
+        <div class="answer">Elementlar turining har xilligi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Otsillogrammada nurlarni aks etish ob`yekti necha yangilash rejimiga ega?</div>
+        <div class="answer">3</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Otsillogrammada nurlarni aks etish ob`yekti birinchi yangilash rejimi qanday nomalanadi?</div>
+        <div class="answer">Panoramali(stript chart mode)</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Otsillogrammada nurlarni aks etish ob`yekti ikkinchi yangilash rejimi qanday nomalanadi?</div>
+        <div class="answer">vaqtli (scope chart mode)</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Otsillogrammada nurlarni aks etish ob`yekti uchinchi yangilash rejimi qanday nomalanadi?</div>
+        <div class="answer">markerli vaqt (sweep chart mode)</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da matnli qatorlarni yuzadagi panelda aks etishning necha xil rejimi mavjud?</div>
+        <div class="answer">4</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da matnli qatorlarni yuzadagi panelda aks etishning birinchi rejimi qasi rejim?</div>
+        <div class="answer">Normal Display</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da matnli qatorlarni yuzadagi panelda aks etishning ikkinchi rejimi qasi rejim?</div>
+        <div class="answer">Codes Display</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da matnli qatorlarni yuzadagi panelda aks etishning uchinchi rejimi qasi rejim?</div>
+        <div class="answer">Password Display</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da matnli qatorlarni yuzadagi panelda aks etishning to`rtinchi rejimi qasi rejim?</div>
+        <div class="answer">HEX Display</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW fayllardan ma`lumotlarni tezkor o`qish yoki yozish uchun qaysi funktsiyalardan foydalanishni maslahat beradi?</div>
+        <div class="answer">Write to Measurement File va Read From Measurement File</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW fayllardan jadval ko`rinishidagi(formati) ma`lumotlarni o`qish yoki yozish uchun qaysi funktsiyalardan foydalanishni maslahat beradi?</div>
+        <div class="answer">Write to Spreadsheet File va Read From Spreadsheet File</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW fayllardan ikkilik sanoq tizimidagi ma`lumotlarni o`qish yoki yozish uchun qaysi funktsiyalardan foydalanishni maslahat beradi?</div>
+        <div class="answer">Read from Binary File va Write to Binary File</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da necha xil o`zgaruvchilar va turlari mavjud?</div>
+        <div class="answer">3 xil: mahalluy, global va tarmoqli</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Mahalliy o`zgaruvchilariga to`g`ri ta`rif berilgan variantni tanlang</div>
+        <div class="answer">diagrammalar blokining turli nuqtalaridan o`tkazuvchi ma`lumotlarini ob`yekt terminaliga ulash imkoniyatingiz bo`lmagan holatda yuzadagi panel ob`yektiga murojaat etish imkonini beradi;</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Global o`zgaruvchilariga to`g`ri ta`rif berilgan variantni tanlang</div>
+        <div class="answer">ixtiyoriy tipdagi qiymatlarga bir necha VU orasida bir vaqtnign o`zida bir nechta VU baravar ishlaganda yoki VIU lar orasida signlallarni uzatish imkoniyatingiz bo`lmaganda ularga murojaat etish imkonini beradi;</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Tarmoq o`zgaruvchilariga to`g`ri ta`rif berilgan variantni tanlang</div>
+        <div class="answer">xuddi global o`zgaruvchilarga o`xshaydi, lekin ular turli mahalliy va tarmoq dasturlarida ishlaydi;</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Bir o`zgaruvchi yordamida parallel sikllarni nazorat etish uchun qanday o`zgaruvchilardan foydalanish mumkin?</div>
+        <div class="answer">Mahalliy</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Ixtiyoriy boshqarish elementi indikator va aksincha boshqarish elementi sifatida ishaltilishi uchun qanday o`zgaruvchilardan foydalanish mumkin?</div>
+        <div class="answer">Mahalliy</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">“O`QISH” rejimidagi mahalliy o`zgaruvchi bu - …</div>
+        <div class="answer">Boshqarish elementi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">“YOZISH” rejimidagi mahalliy o`zgaruvchi bu - …</div>
+        <div class="answer">Indikator</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Xususiyatlar bog`lamini qanday chiqarish kerak?</div>
+        <div class="answer">Yordamchi menyudan Create >> Property Node</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Hodisa tuzilmasini diagramma blokida qayerdan topish mumkin?</div>
+        <div class="answer">Programming >> Structures bo`limidan dan Event Structure</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">“Sonli o`zgaruvchi qiymatini o`zgartirdingiz” bu qanday hodisa bo`ladimi?</div>
+        <div class="answer">Faol hodisa</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Hodisa tuzilmasini diagramma blokida joylashtirganizda avtomatik qanday hodisaga moslangan bo`ladi?</div>
+        <div class="answer">Vaqt o`tishi hodisasiga</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Vaqt o`tishi hodisasiga moslangan hodisa tuzilmasida vaqtga qanday qiymat avtomatik berilgan bo`ladi?</div>
+        <div class="answer">0</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Hodisa tuzilmasiga yangi hodisani qayd etish uchun nima qilish kerak?</div>
+        <div class="answer">Yordamchi menyudan Add Event Case… ni tanlash zarur</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Hodisa tuzilmasiga joriy hodisadan nusxa olish uchun nima qilish kerak?</div>
+        <div class="answer">Yordamchi menyudan Duplicate Event Case ni tanlash zarur</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Hodisa tuzilmasiga joriy hodisani o`chirish uchun nima qilish kerak?</div>
+        <div class="answer">Yordamchi menyudan Delete Event Case ni tanlash zarur</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Hodisa tuzilmasida qanday qo`shimcha terminallar mavjud va qaysilar?</div>
+        <div class="answer">2 ta: ma`lumotlari bog`lami(Event Data Node) va hodisa filtrlari bog`lami(Event Filter Node)</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da kodlarni olib olib tashlash tuzilmalari qayerda joylashgan?</div>
+        <div class="answer">Programming >> Structures</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da kodlarni olib tashlash tuzilmalarida faol variantni qanday bilish mumkin?</div>
+        <div class="answer">* belgisi mavjudligi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da tezkor VIU larni yaratish uchun birinchi shart qanday?</div>
+        <div class="answer">28 ta dan kirish va chiqishga ega bo`lmasligi kerak</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da tezkor VIU larni yaratish uchun ikkinchi shart qanday?</div>
+        <div class="answer">Tuzilma ichida va tashqarisida elementlarni tanlamaslik kerak</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Yuzadagi panel an`naviy dasturiy ta`minotda qanday tushuncha bilan mos keladi?</div>
+        <div class="answer">Interfeys</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Yuzadagi panel asosan qanday elementlardan iborat bo’ladi?</div>
+        <div class="answer">boshqarish elementlari va indikatorlar</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Virtual uskunalarda boshqarish elementi nima?</div>
+        <div class="answer">ma`lumotlar manbaasi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Virtual uskunalarda indikator elementi nima?</div>
+        <div class="answer">ma`lumotlarni qabul qiluvchilar</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Diagrammalar bloki oynasi (an`anaviy dasturiy ta`minotdagi kod bilan taqqoslaganda) o’zida nimani saqlaydi?</div>
+        <div class="answer">grafik kodi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEW da dasturni bajarilishini boshqarish tamoyili nima hisoblanadi?</div>
+        <div class="answer">ma`lumotlar oqimi (dataflow)</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Virtual uskuna nima?</div>
+        <div class="answer">LabVIEW dasturi bo’lib, fizik o’lchash asbobi yoki instrumentini tashqi ko’rinishi va funktsiyasini modellashtiradi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Virtual uskunaning asosiy to’rt komponentini toping?</div>
+        <div class="answer">Yuzadagi panel, diagramma-bloki, ikonka, bog’lash paneli.</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Virtual uskunada yuzadagi panel nimani bildiradi?</div>
+        <div class="answer">fizik uskuna paneli asosida modellashtirilgan virtual uskuna interfaol interfeysi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Virtual uskunadagi diagrammalar bloki nima?</div>
+        <div class="answer">Dasturning kodini saqlovchi virtual uskuna oynasi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEWdagi yuzadagi panel an'anaviy dasturlashdagi……………..ga mos keladi.</div>
+        <div class="answer">Foydalanuvchi interfeysi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEWdagi VU an'anaviy dasturlashdagi……………..ga mos keladi.</div>
+        <div class="answer">Dastur</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEWdagi VIU an'anaviy dasturlashdagi……………..ga mos keladi.</div>
+        <div class="answer">Qism dastur</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEWdagi diagramma bloki an'anaviy dasturlashdagi……………..ga mos keladi.</div>
+        <div class="answer">Datur kodi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEWdagi ma`lumotlar bog`lami an'anaviy dasturlashdagi……………..ga mos keladi.</div>
+        <div class="answer">Operatorlar, funktsiyalar va qismdasturlar</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEWda to'g'ri hisoblangan jumlani ko'rsating:</div>
+        <div class="answer">Ma`lumotlar manbasi faqat bitta, qabul qiluvchi esa bir necha bo`lishi mumkin</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Bir vaqtning o’zida yuzadagi panel va diagrammalar-blogi oynasini ko’rish uchun……tugmalar tanlanadi:</div>
+        <div class="answer">Ctrl+T</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Bir vaqtning o’zida yuzadagi panel va diagrammalar-blogi oynasini ko’rish uchun…… bandini  tanlash kerak:</div>
+        <div class="answer">Window menyusidan Title Left and Right</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Quyidagilardan qaysi biri LabVIEWda belgini  yashirish (ko’rinmaydigan) qilish imkonini beradi?</div>
+        <div class="answer">kontekst menyudan Visible items >> Caption bandini tanlash</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Jumlani davom ettiring: Buzilgan o’tkazgichni o’chirish uchun uni belgilab olib,…..?</div>
+        <div class="answer">Edit menyusidan (Remove Broken Wire) buyruqi  yoki <CTRL+B> tugmalari tanlanadi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Noto'g'ri javobni ko'rsating: Agar o’tkazgizning buzilish sababi noma’lum bo’lsa, ………………dan  Xatoliklar ro’yxati(List Errors ) bandi tanlanadi.</div>
+        <div class="answer">Dasturni ishga tushirish tugmasida sichqonchaning chap tugmasi tanlanadi</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">VU dagi xatolik joylashgan joyni aniqlashtirish uchun ………………….  LabVIEW mavjud xatolikni  chaqirgan oynani mos ekranga chiqaradi va ob`yektni belgilaydi.</div>
+        <div class="answer">Dasturni ishga tushirish tugmasida sichqonchaning chap tugmasi tanlansa.</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">……………..– ma’lumotlar tizimining muhim turi bo’lib, oddiy dasturlash tillari operatorlariga o’xshab virtual uskunani bajarilishini boshqaradi.</div>
+        <div class="answer">tuzilish (struktura);</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">LabVIEWda faylni xotirada saqlash usullari hechta?</div>
+        <div class="answer">5;</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Add Case After va Add Case Before optsiyalari orqali nima bajariladi?</div>
+        <div class="answer">Variant qo'shiladi;</div>
+    </div>
+    
+    <div class="qa-container">
+        <div class="question">Klasterda joylashtirilgan  birinchi ob`yekt ………….. hisoblanadi.</div>
+        <div class="answer">0-element;</div>
+    </div>
+    </body></html>
