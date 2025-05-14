@@ -10,24 +10,17 @@ import Coins from './icons/Coins';
 
 const App = () => {
   const levelNames = [
-    "Bronze",
-    "Silver",
-    "Gold",
-    "Platinum",
-    "Diamond",
-    "Epic",
-    "Legendary",
-    "Master",
-    "GrandMaster",
-    "Lord"
+    "Bronze", "Silver", "Gold", "Platinum", "Diamond",
+    "Epic", "Legendary", "Master", "GrandMaster", "Lord"
   ];
 
   const levelMinPoints = [
-    0, 5000, 25000, 100000, 1000000, 2000000, 10000000, 50000000, 100000000, 1000000000
+    0, 5000, 25000, 100000, 1000000,
+    2000000, 10000000, 50000000, 100000000, 1000000000
   ];
 
   const [levelIndex, setLevelIndex] = useState(6);
-  const [points, setPoints] = useState(0); // Set initial points to 0
+  const [points, setPoints] = useState(0);
   const [clicks, setClicks] = useState([]);
   const pointsToAdd = 10;
 
@@ -35,19 +28,16 @@ const App = () => {
   const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("00:00");
   const [dailyComboTimeLeft, setDailyComboTimeLeft] = useState("00:00");
 
-  // Define the durations in milliseconds
-  const dailyRewardDuration = 24 * 60 * 60 * 1000; // 24 hours
-  const dailyCipherDuration = 24 * 60 * 60 * 1000; // 72 hours
-  const dailyComboDuration = 24 * 60 * 60 * 1000; // 48 hours
+  const dailyRewardDuration = 24 * 60 * 60 * 1000;
+  const dailyCipherDuration = 24 * 60 * 60 * 1000;
+  const dailyComboDuration = 24 * 60 * 60 * 1000;
 
   const calculateTimeLeft = (duration) => {
     const now = new Date().getTime();
-    const targetTime = now + duration; // Set target time for the next reward
-    const diff = targetTime - now; // Calculate remaining time
+    const targetTime = now + duration;
+    const diff = targetTime - now;
 
-    if (diff <= 0) {
-      return "00:00"; // Time expired
-    }
+    if (diff <= 0) return "00:00";
 
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -62,10 +52,9 @@ const App = () => {
       setDailyComboTimeLeft(calculateTimeLeft(dailyComboDuration));
     };
 
-    updateCountdowns(); // Initialize countdowns
-    const interval = setInterval(updateCountdowns, 60000); // Update every minute
-
-    return () => clearInterval(interval); // Clean up on unmount
+    updateCountdowns();
+    const interval = setInterval(updateCountdowns, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const handleCardClick = (e) => {
@@ -73,13 +62,27 @@ const App = () => {
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
-    card.style.transform = `perspective(1000px) rotateX(${-y / 10}deg) rotateY(${x / 10}deg)`;
+
+    // Enhanced 3D tilt effect
+    card.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) scale(0.98)`;
+    card.style.boxShadow = `${x / 10}px ${y / 10}px 20px rgba(0,0,0,0.2)`;
+
     setTimeout(() => {
       card.style.transform = '';
-    }, 100);
+      card.style.boxShadow = '';
+    }, 300);
 
-    setPoints(points + pointsToAdd); // Increase points by clicking
+    setPoints(points + pointsToAdd);
     setClicks([...clicks, { id: Date.now(), x: e.pageX, y: e.pageY }]);
+
+    // Add a subtle pulse effect to the points display
+    const pointsDisplay = document.querySelector('.points-display');
+    if (pointsDisplay) {
+      pointsDisplay.classList.add('points-pulse');
+      setTimeout(() => {
+        pointsDisplay.classList.remove('points-pulse');
+      }, 300);
+    }
   };
 
   const handleAnimationEnd = (id) => {
@@ -87,9 +90,7 @@ const App = () => {
   };
 
   const calculateProgress = () => {
-    if (levelIndex >= levelNames.length - 1) {
-      return 100;
-    }
+    if (levelIndex >= levelNames.length - 1) return 100;
     const currentLevelMin = levelMinPoints[levelIndex];
     const nextLevelMin = levelMinPoints[levelIndex + 1];
     const progress = ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
@@ -100,7 +101,15 @@ const App = () => {
     const currentLevelMin = levelMinPoints[levelIndex];
     const nextLevelMin = levelMinPoints[levelIndex + 1];
     if (points >= nextLevelMin && levelIndex < levelNames.length - 1) {
+      // Level up animation
       setLevelIndex(levelIndex + 1);
+      const levelUpElement = document.querySelector('.level-up-animation');
+      if (levelUpElement) {
+        levelUpElement.style.display = 'block';
+        setTimeout(() => {
+          levelUpElement.style.display = 'none';
+        }, 2000);
+      }
     } else if (points < currentLevelMin && levelIndex > 0) {
       setLevelIndex(levelIndex - 1);
     }
@@ -113,107 +122,141 @@ const App = () => {
     return `+${profit}`;
   };
 
-  // Assuming profit per hour is calculated as points multiplied by some rate
-  const profitPerHour = points * 10; // Example profit calculation
+  const profitPerHour = points * 10;
 
   return (
-    <div className="bg-black flex justify-center">
-      <div className="w-full bg-black text-white h-screen font-bold flex flex-col max-w-xl">
-        <div className="px-4 z-10">
-          <div className="flex items-center space-x-2 pt-4">
-            <div className="p-1 rounded-lg bg-[#1d2025] shadow-lg"> {/* Add shadow here */}
-              <Hamster size={24} className="text-[#d4d4d4]" />
-            </div>
-            <div>
-              <p className="text-sm">Wahhab (CEO)</p>
-            </div>
-          </div>
-          <div className="flex items-center justify-between space-x-4 mt-1">
-            <div className="flex items-center w-1/3">
-              <div className="w-full">
-                <div className="flex justify-between">
-                  <p className="text-sm">{levelNames[levelIndex]}</p>
-                  <p className="text-sm">{levelIndex + 1} <span className="text-[#95908a]">/ {levelNames.length}</span></p>
+      <div className="bg-gradient-to-b from-gray-100 to-gray-200 flex justify-center min-h-screen">
+        <div className="w-full max-w-xl flex flex-col">
+          {/* Header Section */}
+          <div className="px-6 pt-6 pb-4 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-xl bg-white bg-opacity-20 backdrop-blur-sm shadow-md">
+                  <Hamster size={28} className="text-white" />
                 </div>
-                <div className="flex items-center mt-1 border-2 border-[#43433b] rounded-full">
-                  <div className="w-full h-2 bg-[#43433b]/[0.6] rounded-full">
-                    <div className="progress-gradient h-2 rounded-full" style={{ width: `${calculateProgress()}%` }}></div>
+                <div>
+                  <p className="text-white text-lg font-semibold">Wahhab (CEO)</p>
+                  <p className="text-white text-opacity-80 text-xs">Level {levelIndex + 1}</p>
+                </div>
+              </div>
+
+              <div className="flex items-center bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-4 py-2 shadow-md">
+                <img src={binanceLogo} alt="Exchange" className="w-6 h-6" />
+                <div className="h-6 w-px bg-white bg-opacity-40 mx-3"></div>
+                <div className="text-center">
+                  <p className="text-white text-opacity-80 text-xs">Profit/hr</p>
+                  <div className="flex items-center justify-center space-x-1">
+                    <img src={dollarCoin} alt="Dollar Coin" className="w-4 h-4" />
+                    <p className="text-white text-sm font-bold">{formatProfitPerHour(profitPerHour)}</p>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="flex items-center w-2/3 border-2 border-[#43433b] rounded-full px-4 py-[2px] bg-[#43433b]/[0.6] max-w-64">
-              <img src={binanceLogo} alt="Exchange" className="w-8 h-8" />
-              <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
-              <div className="flex-1 text-center">
-                <p className="text-xs text-[#85827d] font-medium">Profit per hour</p>
-                <div className="flex items-center justify-center space-x-1">
-                  <img src={dollarCoin} alt="Dollar Coin" className="w-[18px] h-[18px]" />
-                  <p className="text-sm">{formatProfitPerHour(profitPerHour)}</p>
-                  <Info size={20} className="text-[#43433b]" />
-                </div>
+
+            {/* Level Progress */}
+            <div className="mt-4">
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-white text-sm font-medium">{levelNames[levelIndex]}</p>
+                <p className="text-white text-sm font-medium">{levelIndex + 1}/10</p>
               </div>
-              <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
-              <Settings className="text-white" />
+              <div className="w-full h-3 bg-white bg-opacity-20 rounded-full overflow-hidden">
+                <div
+                    className="h-full bg-gradient-to-r from-yellow-300 to-yellow-500 rounded-full transition-all duration-500 ease-out"
+                    style={{ width: `${calculateProgress()}%` }}
+                ></div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
-          <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px]">
-            <div className="px-4 mt-6 flex justify-between gap-2">
-              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                <div className="dot"></div>
-                <img src={dailyReward} alt="Daily Reward" className="mx-auto w-12 h-12" />
-                <p className="text-[10px] text-center text-white mt-1">Daily reward</p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">{dailyRewardTimeLeft}</p>
-              </div>
-              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                <div className="dot"></div>
-                <img src={dailyCipher} alt="Daily Cipher" className="mx-auto w-12 h-12" />
-                <p className="text-[10px] text-center text-white mt-1">Daily cipher</p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">{dailyCipherTimeLeft}</p>
-              </div>
-              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                <div className="dot"></div>
-                <img src={dailyCombo} alt="Daily Combo" className="mx-auto w-12 h-12" />
-                <p className="text-[10px] text-center text-white mt-1">Daily combo</p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">{dailyComboTimeLeft}</p>
+          {/* Main Content */}
+          <div className="flex-grow px-6 pt-6 bg-gray-100 rounded-t-3xl shadow-inner relative -mt-4 z-0">
+            {/* Level Up Animation (hidden by default) */}
+            <div className="level-up-animation hidden absolute inset-0 bg-gradient-to-br from-yellow-400 to-orange-500 bg-opacity-80 rounded-t-3xl flex items-center justify-center z-50">
+              <div className="text-center animate-bounce">
+                <p className="text-white text-4xl font-bold mb-2">LEVEL UP!</p>
+                <p className="text-white text-2xl">{levelNames[levelIndex]}</p>
               </div>
             </div>
 
-            <div className="relative mt-12 mx-4" onClick={handleCardClick}>
-              <div className="click-card max-w-[300px] mx-auto flex flex-col items-center justify-center rounded-full p-8 pb-6 overflow-hidden relative cursor-pointer z-10 ">
-                <img src={mainCharacter} alt="Main Character" className="main-character z-20 relative" />
-                <div className="bg-[#1d2025] w-full h-full absolute left-0 top-0 opacity-20 rounded-full"></div>
-              </div>
-              {clicks.map(click => (
-                <div
-                  key={click.id}
-                  className="coin-fall absolute"
-                  onAnimationEnd={() => handleAnimationEnd(click.id)}
-                  style={{ left: `${click.x}px`, top: `${click.y}px` }}
-                >
-                  {/* <img src={hamsterCoin} alt="Hamster Coin" /> */}
-                </div>
+            {/* Daily Activities */}
+            <div className="grid grid-cols-3 gap-3 mb-8">
+              {[
+                { img: dailyReward, label: "Daily Reward", time: dailyRewardTimeLeft, color: "from-blue-400 to-blue-600" },
+                { img: dailyCipher, label: "Daily Cipher", time: dailyCipherTimeLeft, color: "from-purple-400 to-purple-600" },
+                { img: dailyCombo, label: "Daily Combo", time: dailyComboTimeLeft, color: "from-green-400 to-green-600" }
+              ].map((item, idx) => (
+                  <div key={idx} className={`bg-gradient-to-br ${item.color} rounded-xl p-3 text-center shadow-md relative overflow-hidden`}>
+                    <div className="absolute -top-2 -right-2 w-16 h-16 bg-white bg-opacity-10 rounded-full"></div>
+                    <div className="relative z-10">
+                      <img src={item.img} alt={item.label} className="mx-auto w-12 h-12 drop-shadow-md" />
+                      <p className="text-white text-xs font-semibold mt-2">{item.label}</p>
+                      <p className="text-white text-opacity-90 text-xs mt-1">{item.time}</p>
+                    </div>
+                  </div>
               ))}
             </div>
 
-            <div className="flex justify-between items-center px-4 mt-6">
-              <Mine className="w-[34px] h-[34px]" />
-              <div className="flex items-center bg-[#272a2f] rounded-xl p-3 font-bold px-4 py-2 text-[14px]">
-                <Coins className="w-[24px] h-[24px]" />
-                <p className="text-white text-sm">{points}</p>
+            {/* Clickable Card */}
+            <div className="relative mb-8 flex justify-center">
+              <div
+                  className="click-card w-64 h-64 rounded-full bg-gradient-to-br from-yellow-200 to-yellow-400 shadow-xl flex items-center justify-center cursor-pointer transition-transform duration-300"
+                  onClick={handleCardClick}
+              >
+                <div className="absolute inset-0 rounded-full bg-white bg-opacity-20 backdrop-blur-sm border-4 border-white border-opacity-30"></div>
+                <img
+                    src={mainCharacter}
+                    alt="Main Character"
+                    className="w-40 h-40 transform hover:scale-110 transition-transform duration-300 z-10"
+                />
+                <div className="absolute inset-0 rounded-full shadow-inner"></div>
               </div>
-              <Friends className="w-[34px] h-[34px]" />
-              <Info className="w-[34px] h-[34px]" />
-              <Settings className="w-[34px] h-[34px]" />
+
+              {/* Click Animations */}
+              {clicks.map(click => (
+                  <div
+                      key={click.id}
+                      className="coin-fall absolute w-6 h-6 bg-yellow-400 rounded-full shadow-md z-20"
+                      onAnimationEnd={() => handleAnimationEnd(click.id)}
+                      style={{
+                        left: `${click.x}px`,
+                        top: `${click.y}px`,
+                        background: 'radial-gradient(circle at 30% 30%, #fff, #fbbf24)'
+                      }}
+                  ></div>
+              ))}
             </div>
 
+            {/* Points Display */}
+            <div className="points-display bg-white rounded-xl shadow-md p-4 mb-6 flex items-center justify-center transition-all duration-300">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-yellow-100 rounded-lg">
+                  <Coins className="w-6 h-6 text-yellow-600" />
+                </div>
+                <div>
+                  <p className="text-gray-500 text-xs">Total Points</p>
+                  <p className="text-2xl font-bold text-gray-800">{points.toLocaleString()}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Navigation */}
+            <div className="flex justify-around items-center bg-white rounded-xl shadow-md p-4">
+              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <Mine className="w-6 h-6 text-gray-700" />
+              </button>
+              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <Friends className="w-6 h-6 text-gray-700" />
+              </button>
+              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <Info className="w-6 h-6 text-gray-700" />
+              </button>
+              <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+                <Settings className="w-6 h-6 text-gray-700" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
