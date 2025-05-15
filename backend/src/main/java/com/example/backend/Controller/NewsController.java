@@ -19,10 +19,6 @@ public class NewsController {
     public HttpEntity<?> addNews(@RequestBody NewsDto news) {
         return newsService.addNews(news);
     }
-    @PutMapping("/{id}")
-    public HttpEntity<?> updateNews(@PathVariable Integer id, @RequestBody NewsDto news) {
-        return newsService.updateNews(id, news);
-    }
 
     @GetMapping
     public HttpEntity<?> getAllNews() {
