@@ -11,7 +11,7 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
-    checkSecurity();
+    // checkSecurity();
   }, [blockedPages, location.pathname, navigate]);
   async function checkSecurity() {
     if (
