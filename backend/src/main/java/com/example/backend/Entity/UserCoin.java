@@ -6,29 +6,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "telegram_users")
+@Table(name = "user_coin")
 @Entity
 @Builder
-public class TelegramUser {
+public class UserCoin {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     @Column(unique = true, nullable = false)
-    private BigInteger telegramId;
-    private String username;
-    private String fullName;
     private LocalDateTime createdAt;
-    private Boolean isFirsTime;
-    private Integer availableCoin;
-    private Integer level;
-
-
-
+    private Integer amount;
+    @ManyToOne
+    private TelegramUser telegramUser;
 }
