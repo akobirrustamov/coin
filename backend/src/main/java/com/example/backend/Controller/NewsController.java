@@ -19,6 +19,10 @@ public class NewsController {
     public HttpEntity<?> addNews(@RequestBody NewsDto news) {
         return newsService.addNews(news);
     }
+    @PutMapping("/{id}")
+    public HttpEntity<?> updateNews(@PathVariable Integer id, @RequestBody NewsDto news) {
+        return newsService.updateNews(id, news);
+    }
 
     @GetMapping
     public HttpEntity<?> getAllNews() {
@@ -32,6 +36,7 @@ public class NewsController {
         }
         return new ResponseEntity<>(newsItem, HttpStatus.OK);
     }
+
     @DeleteMapping("/{id}")
     public HttpEntity<?> deleteNews(@PathVariable Integer id) {
         System.out.println(id);

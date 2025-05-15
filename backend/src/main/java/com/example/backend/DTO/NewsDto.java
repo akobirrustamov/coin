@@ -16,9 +16,7 @@ import java.util.UUID;
 public class NewsDto {
     private String title;
     private String description;
-
     private UUID mainPhoto;
-
     private List<UUID> photos = new ArrayList<>();
 
 }

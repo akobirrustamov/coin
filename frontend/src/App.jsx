@@ -49,7 +49,7 @@ const App = () => {
         <Route path={"/dashboard"} element={<AdminHome />} />
         <Route path={"/dashboard/add"} element={<Add />} />
         <Route path={"/dashboard/mission"} element={<Mission />} />
-        <Route path={"/dashboard/user"} element={<User />} />
+        <Route path={"/dashboard/user"} element={<User />} /> 
       </Routes>
     </div>
   );
