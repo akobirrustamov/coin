@@ -37,7 +37,7 @@ const LoginStudent = () => {
       // const navigate = useHistory();
       // console.log(roles)
       if (roles[0].name === "ROLE_ADMIN" && response.error === false) {
-        navigate("/dashboard/news");
+        navigate("/dashboard");
       }
     } catch (error) {
       if (
@@ -62,11 +62,13 @@ const LoginStudent = () => {
               <div className="h-40 bg-gradient-to-r from-cyan-600 to-sky-500 blur-[106px] dark:to-indigo-600"></div>
             </div>
             <div className="items-center gap-12 lg:flex justify-center">
-              <div className="md:mx-auto mt-0 lg:ml-0 lg:w-1/2">Hamster</div>
+              <div className="md:mx-auto mt-0 lg:ml-0 lg:w-1/2">
+                Rasm yoki yozuv buladi!!!
+              </div>
               <div className="relative w-1/2 rounded-3xl border border-gray-100 bg-white p-4 shadow-2xl shadow-gray-600/10 dark:border-gray-700 dark:bg-gray-800 dark:shadow-none sm:p-8">
                 <div className="flex m-auto text-center">
-                  {/*<img className="mt-4 w-44" src={bmti} alt="tailus stats and login components" />*/}
-                  {/*<img className="mt-8 w-32 h-20" src={km} alt="tailus stats and login components" />*/}
+                  {/* <img className="mt-4 w-44" src={bmti} alt="tailus stats and login components" /> */}
+                  {/* <img className="mt-8 w-32 h-20" src={km} alt="tailus stats and login components" /> */}
                 </div>
 
                 <h2 className="text-center text-2xl font-bold text-gray-800 dark:text-white">
