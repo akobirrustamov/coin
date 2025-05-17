@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Lock, Gift } from "lucide-react";
+import { Check, Gift } from "lucide-react";
 import clsx from "clsx";
+import BottomNavigation from "../../components/bottomNavigation/BottomNavigation";
 
 const getDaysInMonth = (year, month) => {
   return new Date(year, month + 1, 0).getDate();
@@ -41,7 +42,7 @@ const DailyReward = () => {
             >
               <p className="text-sm font-semibold">{day}</p>
               {isClaimed ? (
-                <Lock className="w-5 h-5 mt-1" />
+                <Check className="w-5 h-5 mt-1" />
               ) : (
                 <Gift className="w-5 h-5 mt-1 text-yellow-500" />
               )}
@@ -49,6 +50,7 @@ const DailyReward = () => {
           );
         })}
       </div>
+      <BottomNavigation/>
     </div>
   );
 };

@@ -44,8 +44,7 @@ const App = () => {
   }
 
   return (
-    <div className="">
-      
+    <div className="min-h-screen overflow-hidden flex flex-col relative">
       <Routes>
         <Route path={"/"} element={<BotWeb />} />
         <Route path={"/admin/login"} element={<LoginAdmin />} />
@@ -55,7 +54,7 @@ const App = () => {
         <Route path={"/dashboard/user"} element={<User />} />
         <Route path={"/daily-reward"} element={<DailyReward />} />
       </Routes>
-      
+      <BottomNavigation />
     </div>
   );
 };
