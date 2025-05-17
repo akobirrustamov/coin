@@ -54,7 +54,7 @@ const App = () => {
         <Route path={"/dashboard/user"} element={<User />} />
         <Route path={"/daily-reward"} element={<DailyReward />} />
       </Routes>
-      <BottomNavigation />
+      {!location.pathname.startsWith("/dashboard") && <BottomNavigation />}
     </div>
   );
 };
