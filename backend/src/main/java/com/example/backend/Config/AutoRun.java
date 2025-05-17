@@ -26,7 +26,6 @@ public class AutoRun implements CommandLineRunner {
         saveUser(adminPhone, userByPhone);
 
 
-
     }
 
 

@@ -3,10 +3,11 @@ import Info from "../../icons/Info";
 import Settings from "../../icons/Settings";
 import Mine from "../../icons/Mine";
 import Friends from "../../icons/Friends";
+
 function BottomNavigation() {
   return (
-    <div>
-      <div className="flex justify-around items-center bg-gradient-to-r from-purple-600 to-blue-500 rounded-t-3xl p-4 shadow-lg z-20">
+    <div className="fixed bottom-0 left-0 w-full z-50 h-20">
+      <div className="flex justify-around items-center bg-gradient-to-r from-purple-600 to-blue-500 rounded-t-3xl p-4 shadow-lg h-full">
         {[Mine, Friends, Info, Settings].map((Icon, idx) => (
           <button
             key={idx}

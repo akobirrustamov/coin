@@ -3,5 +3,7 @@ package com.example.backend.Repository;
 import com.example.backend.Entity.TelegramUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TelegramUserRepo extends JpaRepository<TelegramUser,Long> {
+import java.util.UUID;
+
+public interface TelegramUserRepo extends JpaRepository<TelegramUser,UUID> {
 }

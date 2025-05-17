@@ -24,4 +24,14 @@ public class UserCoin {
     private Integer amount;
     @ManyToOne
     private TelegramUser telegramUser;
+
+
+    public UserCoin(LocalDateTime createdAt, Integer amount, TelegramUser telegramUser) {
+        this.createdAt = createdAt;
+        this.amount = amount;
+        this.telegramUser = telegramUser;
+    }
+
+
+
 }

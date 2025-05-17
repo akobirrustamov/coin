@@ -112,10 +112,10 @@ const BotWeb = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-gray-100 to-gray-200 min-h-screen flex justify-center">
-      <div className="w-full max-w-xl flex flex-col">
+    <div className="bg-gradient-to-b from-gray-100 to-gray-200 flex justify-center min-h-0 h-screen overflow-hidden"> 
+      <div className="w-full max-w-xl flex flex-col pb-20">
         {/* Header */}
-        <div className="px-6 pt-2 pb-4 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10">
+        <div className="px-6 pt-2 pb-4 bg-gradient-to-r from-purple-600 to-blue-500 -pb rounded-b-3xl shadow-lg z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="p-2 rounded-xl bg-white bg-opacity-20 backdrop-blur-sm shadow-md">
@@ -258,7 +258,6 @@ const BotWeb = () => {
         </div>
 
         {/* Bottom Navigation */}
-        <BottomNavigation />
       </div>
     </div>
   );
