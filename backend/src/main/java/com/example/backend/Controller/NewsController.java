@@ -32,6 +32,7 @@ public class NewsController {
         }
         return new ResponseEntity<>(newsItem, HttpStatus.OK);
     }
+
     @DeleteMapping("/{id}")
     public HttpEntity<?> deleteNews(@PathVariable Integer id) {
         System.out.println(id);

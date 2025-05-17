@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
+import ApiCall, { baseUrl } from "../config/index";
+import { Link } from "react-router-dom";
 import "../../App.css";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import Hamster from "../../icons/Hamster";
 import {
   binanceLogo,
@@ -17,23 +22,54 @@ import Friends from "../../icons/Friends";
 import Coins from "../../icons/Coins";
 
 const BotWeb = () => {
-  const levelNames = [
-    "Bronze",
-    "Silver",
-    "Gold",
-    "Platinum",
-    "Diamond",
-    "Epic",
-    "Legendary",
-    "Master",
-    "GrandMaster",
-    "Lord",
-  ];
+  const [newFormData, setNewFormData] = useState([]);
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 800,
+    slidesToShow: 2, //bir martada nechtasini kursatish uchunligi
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    arrows: false,
+    pauseOnHover: false,
+    cssEase: "linear",
+    centerMode: true, // Helps with spacing
+    centerPadding: "10px", // Adjust this for tighter spacing
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+          centerPadding: "10px",
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1, // Show fewer on mobile
+          centerPadding: "5px",
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          centerPadding: "0px",
+        },
+      },
+    ],
+  };
 
-  const levelMinPoints = [
-    0, 5000, 25000, 100000, 1000000, 2000000, 10000000, 50000000, 100000000,
-    1000000000,
-  ];
+  const fetchAdd = async () => {
+    try {
+      const response = await ApiCall("/api/v1/news", "GET", null, null, true);
+      setNewFormData(response.data);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+      setNewFormData([]);
+    }
+  };
 
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(0);
@@ -109,32 +145,9 @@ const BotWeb = () => {
     setClicks((prevClicks) => prevClicks.filter((click) => click.id !== id));
   };
 
-  const calculateProgress = () => {
-    if (levelIndex >= levelNames.length - 1) return 100;
-    const currentLevelMin = levelMinPoints[levelIndex];
-    const nextLevelMin = levelMinPoints[levelIndex + 1];
-    const progress =
-      ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
-    return Math.min(progress, 100);
-  };
-
   useEffect(() => {
-    const currentLevelMin = levelMinPoints[levelIndex];
-    const nextLevelMin = levelMinPoints[levelIndex + 1];
-    if (points >= nextLevelMin && levelIndex < levelNames.length - 1) {
-      // Level up animation
-      setLevelIndex(levelIndex + 1);
-      const levelUpElement = document.querySelector(".level-up-animation");
-      if (levelUpElement) {
-        levelUpElement.style.display = "block";
-        setTimeout(() => {
-          levelUpElement.style.display = "none";
-        }, 2000);
-      }
-    } else if (points < currentLevelMin && levelIndex > 0) {
-      setLevelIndex(levelIndex - 1);
-    }
-  }, [points, levelIndex]);
+    fetchAdd();
+  }, []);
 
   const formatProfitPerHour = (profit) => {
     if (profit >= 1000000000) return `+${(profit / 1000000000).toFixed(2)}B`;
@@ -149,7 +162,7 @@ const BotWeb = () => {
     <div className="bg-gradient-to-b from-gray-100 to-gray-200 flex justify-center min-h-screen">
       <div className="w-full max-w-xl flex flex-col">
         {/* Header Section */}
-        <div className="px-6 pt-6 pb-4 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10">
+        <div className="px-6 pt-2 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="p-2 rounded-xl bg-white bg-opacity-20 backdrop-blur-sm shadow-md">
@@ -180,33 +193,38 @@ const BotWeb = () => {
 
           {/* Level Progress */}
           <div className="mt-4">
-            <div className="flex justify-between items-center mb-1">
-              <p className="text-white text-sm font-medium">
-                {levelNames[levelIndex]}
-              </p>
-              <p className="text-white text-sm font-medium">
-                {levelIndex + 1}/10
-              </p>
-            </div>
-            <div className="w-full h-3 bg-white bg-opacity-20 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gradient-to-r from-yellow-300 to-yellow-500 rounded-full transition-all duration-500 ease-out"
-                style={{ width: `${calculateProgress()}%` }}
-              ></div>
+            <div className="flex gap-8 items-center">
+              <div className="max-w-md mx-auto">
+                <Slider {...sliderSettings}>
+                  {newFormData.map((newsItem) => (
+                    <div key={newsItem.id} className="px-1 ">
+                      <div className="flex gap-6 overflow-hidden mx-1">
+                        <div className="relative h-10">
+                          <img
+                            src={`${baseUrl}/api/v1/file/getFile/${newsItem.mainPhoto.id}`}
+                            alt={newsItem.title}
+                            className="w-full h-8 object-cover rounded"
+                          />
+                        </div>
+                        <div className="">
+                          <h3 className="text-sm text-white font-semibold line-clamp-1">
+                            {newsItem.title}
+                          </h3>
+                          <p className="text-fuchsia-100 text-xs line-clamp-2">
+                            {newsItem.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </Slider>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Main Content */}
         <div className="flex-grow px-6 pt-6 bg-gray-100 rounded-t-3xl shadow-inner relative -mt-4 z-0">
-          {/* Level Up Animation (hidden by default) */}
-          <div className="level-up-animation hidden absolute inset-0 bg-gradient-to-br from-yellow-400 to-orange-500 bg-opacity-80 rounded-t-3xl flex items-center justify-center z-50">
-            <div className="text-center animate-bounce">
-              <p className="text-white text-4xl font-bold mb-2">LEVEL UP!</p>
-              <p className="text-white text-2xl">{levelNames[levelIndex]}</p>
-            </div>
-          </div>
-
           {/* Daily Activities */}
           <div className="grid grid-cols-3 gap-3 mb-8">
             {[
@@ -252,7 +270,7 @@ const BotWeb = () => {
           </div>
 
           {/* Clickable Card */}
-          <div className="relative mb-8 flex justify-center">
+          <div className="relative mb-4 flex justify-center">
             <div
               className="click-card w-64 h-64 rounded-full bg-gradient-to-br from-yellow-200 to-yellow-400 shadow-xl flex items-center justify-center cursor-pointer transition-transform duration-300"
               onClick={handleCardClick}
