@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 body {
-  font-family: sans-serif;
-}
-* {
-  transition: background-color 0.2s ease, color 0.2s ease;
+    font-family: sans-serif;
 }
 
+* {
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
 
 @layer utilities {
     .rotate-y-enter {

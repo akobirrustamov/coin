@@ -9,6 +9,8 @@ import BotWeb from "../src/pages/bot-web/BotWeb.jsx";
 import Add from "./pages/admin/add/Add.jsx";
 import Mission from "./pages/admin/mission/Mission.jsx";
 import User from "./pages/admin/users/User.jsx";
+import DailyReward from "./pages/dailyReward/DailyReward.jsx";
+import BottomNavigation from "./components/bottomNavigation/BottomNavigation.jsx";
 
 const App = () => {
   const blockedPages = ["/dashboard", "/app"];
@@ -42,15 +44,17 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className="relative min-h-screen pb-24">
       <Routes>
         <Route path={"/"} element={<BotWeb />} />
         <Route path={"/admin/login"} element={<LoginAdmin />} />
         <Route path={"/dashboard"} element={<AdminHome />} />
         <Route path={"/dashboard/add"} element={<Add />} />
         <Route path={"/dashboard/mission"} element={<Mission />} />
-        <Route path={"/dashboard/user"} element={<User />} /> 
+        <Route path={"/dashboard/user"} element={<User />} />
+        <Route path={"/daily-reward"} element={<DailyReward />} />
       </Routes>
+      {!location.pathname.startsWith("/dashboard") && <BottomNavigation />}
     </div>
   );
 };
