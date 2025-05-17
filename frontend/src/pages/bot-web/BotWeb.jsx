@@ -14,6 +14,7 @@ import {
 } from "../../images";
 
 import { useNavigate } from "react-router-dom";
+import BottomNavigation from "../../components/bottomNavigation/BottomNavigation";
 
 const BotWeb = () => {
   const [newFormData, setNewFormData] = useState([]);
@@ -111,7 +112,7 @@ const BotWeb = () => {
   };
 
   return (
-    <div className="bg-gradient-to-b from-gray-100 to-gray-200 min-h-screen pb-20 flex justify-center">
+    <div className="bg-gradient-to-b from-gray-100 to-gray-200 min-h-screen flex justify-center">
       <div className="w-full max-w-xl flex flex-col">
         {/* Header */}
         <div className="px-6 pt-2 pb-4 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10">
@@ -257,6 +258,7 @@ const BotWeb = () => {
         </div>
 
         {/* Bottom Navigation */}
+        <BottomNavigation />
       </div>
     </div>
   );

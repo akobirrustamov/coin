@@ -44,7 +44,8 @@ const App = () => {
   }
 
   return (
-    <div className="relative min-h-screen pb-24">
+    <div className="">
+      
       <Routes>
         <Route path={"/"} element={<BotWeb />} />
         <Route path={"/admin/login"} element={<LoginAdmin />} />
@@ -54,7 +55,7 @@ const App = () => {
         <Route path={"/dashboard/user"} element={<User />} />
         <Route path={"/daily-reward"} element={<DailyReward />} />
       </Routes>
-      {!location.pathname.startsWith("/dashboard") && <BottomNavigation />}
+      
     </div>
   );
 };
