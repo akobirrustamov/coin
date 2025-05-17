@@ -15,7 +15,7 @@ public class TaskLevelDto {
     private UUID mainPhoto;
     private String title;
     private String description;
-    private Integer seconds;
+//    private Integer seconds;
     private Integer coinCount;
     private Integer userLevel;
     private Boolean status;

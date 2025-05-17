@@ -26,8 +26,9 @@ public class TaskCinema {
     private Integer coinCount;
     private LocalDateTime createdAt;
     private Boolean status;
+    private String url;
 
-    public TaskCinema(Attachment mainPhoto, String title, String description, Integer coinCount, Integer seconds, LocalDateTime createdAt, Boolean status) {
+    public TaskCinema(Attachment mainPhoto, String title, String description, Integer coinCount, Integer seconds, LocalDateTime createdAt, Boolean status, String url) {
         this.mainPhoto = mainPhoto;
         this.title = title;
         this.description = description;
@@ -35,5 +36,6 @@ public class TaskCinema {
         this.seconds = seconds;
         this.createdAt = createdAt;
         this.status = status;
+        this.url = url;
     }
 }

@@ -26,9 +26,10 @@ public class TaskOrdinary {
     private Integer coinCount;
     private LocalDateTime createdAt;
     private Boolean status;
+    private String url;
 
 
-    public TaskOrdinary(Attachment mainPhoto, String title, Integer seconds, String description, Integer coinCount, LocalDateTime createdAt, Boolean status) {
+    public TaskOrdinary(Attachment mainPhoto, String title, Integer seconds, String description, Integer coinCount, LocalDateTime createdAt, Boolean status, String url) {
         this.mainPhoto = mainPhoto;
         this.title = title;
         this.seconds = seconds;
@@ -36,5 +37,6 @@ public class TaskOrdinary {
         this.coinCount = coinCount;
         this.createdAt = createdAt;
         this.status = status;
+        this.url = url;
     }
 }

@@ -37,7 +37,7 @@ public class TaskCinemaController {
         if (byId.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        TaskCinema taskCinemaEntity = new TaskCinema(byId.get(), taskCinema.getTitle(), taskCinema.getDescription(), taskCinema.getCoinCount(), taskCinema.getSeconds(), LocalDateTime.now(), true);
+        TaskCinema taskCinemaEntity = new TaskCinema(byId.get(), taskCinema.getTitle(), taskCinema.getDescription(), taskCinema.getCoinCount(), taskCinema.getSeconds(), LocalDateTime.now(), true, taskCinema.getUrl());
         TaskCinema save = taskCinemaRepo.save(taskCinemaEntity);
         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
@@ -62,7 +62,7 @@ public class TaskCinemaController {
         existing.setCoinCount(taskCinemaDto.getCoinCount());
         existing.setSeconds(taskCinemaDto.getSeconds());
         existing.setStatus(taskCinemaDto.getStatus()); // or update status from DTO if needed
-
+        existing.setUrl(taskCinemaDto.getUrl());
         TaskCinema updated = taskCinemaRepo.save(existing);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }

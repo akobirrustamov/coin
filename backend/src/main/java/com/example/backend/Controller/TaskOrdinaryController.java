@@ -37,7 +37,7 @@ public class TaskOrdinaryController {
         if (byId.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        TaskOrdinary taskOrdinary = new TaskOrdinary(byId.get(), taskOrdinaryDto.getTitle(), taskOrdinaryDto.getSeconds(), taskOrdinaryDto.getDescription(), taskOrdinaryDto.getCoinCount(), LocalDateTime.now(), true);
+        TaskOrdinary taskOrdinary = new TaskOrdinary(byId.get(), taskOrdinaryDto.getTitle(), taskOrdinaryDto.getSeconds(), taskOrdinaryDto.getDescription(), taskOrdinaryDto.getCoinCount(), LocalDateTime.now(), true, taskOrdinaryDto.getUrl());
         TaskOrdinary save = taskOrdinaryRepo.save(taskOrdinary);
         return new ResponseEntity<>(save, HttpStatus.CREATED);
     }
@@ -60,7 +60,7 @@ public class TaskOrdinaryController {
         existing.setSeconds(taskOrdinaryDto.getSeconds());
         existing.setCoinCount(taskOrdinaryDto.getCoinCount());
         existing.setStatus(taskOrdinaryDto.getStatus()); // Set as needed
-
+        existing.setUrl(taskOrdinaryDto.getUrl());
         TaskOrdinary updated = taskOrdinaryRepo.save(existing);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }

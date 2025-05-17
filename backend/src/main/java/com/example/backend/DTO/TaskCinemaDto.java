@@ -18,4 +18,5 @@ public class TaskCinemaDto {
     private Integer seconds;
     private Integer coinCount;
     private Boolean status;
+    private String url;
 }
