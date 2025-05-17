@@ -180,11 +180,13 @@ const BotWeb = () => {
               <img src={binanceLogo} alt="Exchange" className="w-6 h-6" />
               <div className="h-6 w-px bg-white bg-opacity-40 mx-3"></div>
               <div className="text-center">
-                <p className="text-white text-opacity-80 text-xs">Profit/hr</p>
+                <p className="text-white text-opacity-80 text-xs">
+                  Total Points
+                </p>
                 <div className="flex items-center justify-center space-x-1">
                   <img src={dollarCoin} alt="Dollar Coin" className="w-4 h-4" />
-                  <p className="text-white text-sm font-bold">
-                    {formatProfitPerHour(profitPerHour)}
+                  <p className="text-white text-base font-bold">
+                    {points.toLocaleString()}
                   </p>
                 </div>
               </div>
@@ -224,9 +226,9 @@ const BotWeb = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-grow px-6 pt-6 bg-gray-100 rounded-t-3xl shadow-inner relative -mt-4 z-0">
+        <div className="flex-grow px-6 pt-6 bg-gray-100 rounded-3xl shadow-inner relative -my-4 z-0">
           {/* Daily Activities */}
-          <div className="grid grid-cols-3 gap-3 mb-8">
+          <div className="grid grid-cols-3 gap-3 mb-2">
             {[
               {
                 img: dailyReward,
@@ -270,9 +272,9 @@ const BotWeb = () => {
           </div>
 
           {/* Clickable Card */}
-          <div className="relative mb-4 flex justify-center">
+          <div className="relative mb-2 flex justify-center my-auto">
             <div
-              className="click-card w-64 h-64 rounded-full bg-gradient-to-br from-yellow-200 to-yellow-400 shadow-xl flex items-center justify-center cursor-pointer transition-transform duration-300"
+              className="click-card w-64 h-64 rounded-full bg-gradient-to-br from-yellow-200 to-yellow-400 shadow-xl flex items-center justify-center cursor-pointer transition-transform duration-300 mx-auto"
               onClick={handleCardClick}
             >
               <div className="absolute inset-0 rounded-full bg-white bg-opacity-20 backdrop-blur-sm border-4 border-white border-opacity-30"></div>
@@ -280,6 +282,7 @@ const BotWeb = () => {
                 src={mainCharacter}
                 alt="Main Character"
                 className="w-40 h-40 transform hover:scale-110 transition-transform duration-300 z-10"
+                style={{ display: "block", margin: "0 auto" }}
               />
               <div className="absolute inset-0 rounded-full shadow-inner"></div>
             </div>
@@ -288,7 +291,7 @@ const BotWeb = () => {
             {clicks.map((click) => (
               <div
                 key={click.id}
-                className="coin-fall absolute w-6 h-6 bg-yellow-400 rounded-full shadow-md z-20"
+                className="coin-fall absolute w-6 h-6 bg-yellow-400 rounded-full shadow-md z-30"
                 onAnimationEnd={() => handleAnimationEnd(click.id)}
                 style={{
                   left: `${click.x}px`,
@@ -301,7 +304,7 @@ const BotWeb = () => {
           </div>
 
           {/* Points Display */}
-          <div className="points-display bg-white rounded-xl shadow-md p-4 mb-6 flex items-center justify-center transition-all duration-300">
+          {/* <div className="points-display bg-white rounded-xl shadow-md p-4 mb-6 flex items-center justify-center transition-all duration-300">
             <div className="flex items-center space-x-3">
               <div className="p-2 bg-yellow-100 rounded-lg">
                 <Coins className="w-6 h-6 text-yellow-600" />
@@ -313,23 +316,22 @@ const BotWeb = () => {
                 </p>
               </div>
             </div>
-          </div>
-
-          {/* Bottom Navigation */}
-          <div className="flex justify-around items-center bg-white rounded-xl shadow-md p-4">
-            <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-              <Mine className="w-6 h-6 text-gray-700" />
-            </button>
-            <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-              <Friends className="w-6 h-6 text-gray-700" />
-            </button>
-            <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-              <Info className="w-6 h-6 text-gray-700" />
-            </button>
-            <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-              <Settings className="w-6 h-6 text-gray-700" />
-            </button>
-          </div>
+          </div> */}
+        </div>
+        {/* Bottom Navigation */}
+        <div className="flex justify-around items-center bg-gradient-to-r from-purple-600 to-blue-500 rounded-t-3xl p-4 shadow-lg z-20">
+          <button className="p-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-colors">
+            <Mine className="w-6 h-6 text-white" />
+          </button>
+          <button className="p-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-colors">
+            <Friends className="w-6 h-6 text-white" />
+          </button>
+          <button className="p-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-colors">
+            <Info className="w-6 h-6 text-white" />
+          </button>
+          <button className="p-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-colors">
+            <Settings className="w-6 h-6 text-white" />
+          </button>
         </div>
       </div>
     </div>
