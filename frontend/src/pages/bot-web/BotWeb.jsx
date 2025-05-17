@@ -44,9 +44,9 @@ const BotWeb = () => {
     responsive: [
       {
         breakpoint: 1024,
-        settings: { slidesToShow: 1, centerPadding: "10px" },
+        settings: { slidesToShow: 1, centerPadding: "0px" },
       },
-      { breakpoint: 768, settings: { slidesToShow: 1, centerPadding: "5px" } },
+      { breakpoint: 768, settings: { slidesToShow: 1, centerPadding: "0px" } },
       { breakpoint: 480, settings: { slidesToShow: 1, centerPadding: "0px" } },
     ],
   };
