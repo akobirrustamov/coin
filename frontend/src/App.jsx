@@ -16,6 +16,8 @@ import Level from "./pages/admin/mission/level/Level.jsx";
 import Cinema from "./pages/admin/mission/cinema/Cinema.jsx";
 import Special from "./pages/admin/mission/special/Special.jsx";
 import Ref from "./pages/admin/mission/REF/Ref.jsx";
+import Tasks from "./pages/tasks/Tasks.jsx";
+import CinemaTask from "./pages/tasks/CinemaTask.jsx";
 
 const App = () => {
   const blockedPages = ["/dashboard", "/app"];
@@ -65,6 +67,10 @@ const App = () => {
         {/* adminlar uchun */}
         {/* bot uchun */}
         <Route path={"/daily-reward"} element={<DailyReward />} />
+        <Route path={"/tasks"} element={<Tasks />}>
+          <Route index element={<CinemaTask />} />
+          <Route path={"cinema-task"} element={<CinemaTask />} />
+        </Route>
       </Routes>
       {!location.pathname.startsWith("/dashboard") && <BottomNavigation />}
     </div>
