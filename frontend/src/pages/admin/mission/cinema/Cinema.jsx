@@ -13,6 +13,7 @@ function Cinema() {
     title: "",
     description: "",
     mainPhoto: null,
+    previewImage: null,
     photos: [],
     seconds: 0,
     coinCount: 0,
@@ -68,7 +69,12 @@ function Cinema() {
       }));
       return;
     }
-    setFormCinemaData((prev) => ({ ...prev, mainPhoto: file }));
+
+    setFormCinemaData((prev) => ({
+      ...prev,
+      mainPhoto: file,
+      previewImage: URL.createObjectURL(file),
+    }));
     setErrors((prev) => ({ ...prev, mainPhoto: undefined }));
   };
 
@@ -191,6 +197,7 @@ function Cinema() {
       title: "",
       description: "",
       mainPhoto: null,
+      previewImage: null,
       photos: [],
       seconds: 0,
       coinCount: 0,
@@ -692,12 +699,15 @@ function Cinema() {
                         </p>
                       </div>
                     ) : (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Asosiy rasm <span className="text-red-500">*</span>
-                        </label>
-                        <div className="flex items-center justify-center w-full">
-                          <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <div className="flex items-center justify-center w-full">
+                        <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors overflow-hidden">
+                          {formCinemaData.previewImage ? (
+                            <img
+                              src={formCinemaData.previewImage}
+                              alt="Tanlangan rasm"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
                             <div className="flex flex-col items-center justify-center pt-5 pb-6 px-4 text-center">
                               <svg
                                 className="w-10 h-10 mb-3 text-gray-400"
@@ -722,32 +732,15 @@ function Cinema() {
                                 PNG, JPG yoki JPEG (MAX. 5MB)
                               </p>
                             </div>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={handleMainPhotoChange}
-                              className="hidden"
-                              required={!editingId}
-                            />
-                          </label>
-                        </div>
-                        {errors.mainPhoto && (
-                          <p className="mt-2 text-sm text-red-600 flex items-center">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-4 w-4 mr-1"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            {errors.mainPhoto}
-                          </p>
-                        )}
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleMainPhotoChange}
+                            className="hidden"
+                            required={!editingId}
+                          />
+                        </label>
                       </div>
                     )}
                   </div>

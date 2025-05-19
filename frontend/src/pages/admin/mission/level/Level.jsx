@@ -13,13 +13,15 @@ function Level() {
     title: "",
     description: "",
     mainPhoto: null,
+    previewImage: null, // 🔥 Yangi qo‘shildi
     photos: [],
-    seconds: null,
+    seconds: 0,
     coinCount: 0,
     createdAt: 0,
     status: true,
     userLevel: "",
   });
+
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -69,7 +71,12 @@ function Level() {
       }));
       return;
     }
-    setFormLevelData((prev) => ({ ...prev, mainPhoto: file }));
+
+    setFormLevelData((prev) => ({
+      ...prev,
+      mainPhoto: file,
+      previewImage: URL.createObjectURL(file), // 🔥 Preview uchun
+    }));
     setErrors((prev) => ({ ...prev, mainPhoto: undefined }));
   };
 
@@ -694,12 +701,15 @@ function Level() {
                         </p>
                       </div>
                     ) : (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Asosiy rasm <span className="text-red-500">*</span>
-                        </label>
-                        <div className="flex items-center justify-center w-full">
-                          <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                      <div className="flex items-center justify-center w-full">
+                        <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors overflow-hidden">
+                          {formLevelData.previewImage ? (
+                            <img
+                              src={formLevelData.previewImage}
+                              alt="Tanlangan rasm"
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
                             <div className="flex flex-col items-center justify-center pt-5 pb-6 px-4 text-center">
                               <svg
                                 className="w-10 h-10 mb-3 text-gray-400"
@@ -712,7 +722,7 @@ function Level() {
                                   strokeLinejoin="round"
                                   strokeWidth="2"
                                   d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                                ></path>
+                                />
                               </svg>
                               <p className="mb-2 text-sm text-gray-500">
                                 <span className="font-semibold">
@@ -724,32 +734,15 @@ function Level() {
                                 PNG, JPG yoki JPEG (MAX. 5MB)
                               </p>
                             </div>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={handleMainPhotoChange}
-                              className="hidden"
-                              required={!editingId}
-                            />
-                          </label>
-                        </div>
-                        {errors.mainPhoto && (
-                          <p className="mt-2 text-sm text-red-600 flex items-center">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-4 w-4 mr-1"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                            {errors.mainPhoto}
-                          </p>
-                        )}
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleMainPhotoChange}
+                            className="hidden"
+                            required={!editingId}
+                          />
+                        </label>
                       </div>
                     )}
                   </div>
