@@ -69,3 +69,19 @@ body {
 .rotateY-180 {
     transform: rotateY(180deg);
 }
+
+@keyframes float-up {
+    0% {
+        transform: translate(-50%, -50%) translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) translateY(-50px);
+        opacity: 0;
+    }
+}
+
+.animate-float-up {
+    animation: float-up 0.8s ease-out forwards;
+}
