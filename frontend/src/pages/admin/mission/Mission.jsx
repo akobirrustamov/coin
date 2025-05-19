@@ -13,16 +13,16 @@ function Mission() {
       name: "Darajalar",
     },
     {
-      link: "/dashboard/mission/special",
+      link: "/dashboard/mission/ordinary",
       name: "Obuna",
+    },
+    {
+      link: "/dashboard/mission/special",
+      name: "Maxsus",
     },
     {
       link: "/dashboard/mission/ref",
       name: "Taklif",
-    },
-    {
-      link: "/dashboard/mission/ordinary",
-      name: "Maxsus",
     },
   ];
 
