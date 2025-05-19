@@ -184,7 +184,7 @@ const BotWeb = () => {
                 label: "Topshiriq",
                 time: dailyRewardTimeLeft,
                 color: "from-blue-400 to-blue-600",
-                route: "/daily-task",
+                route: "/tasks",
               },
               {
                 img: dailyCipher,
@@ -198,7 +198,7 @@ const BotWeb = () => {
                 label: "Boshqotirma",
                 time: dailyComboTimeLeft,
                 color: "from-green-400 to-green-600",
-                route: "/daily-puzzle",
+                route: "/puzzle",
               },
             ].map((item, idx) => (
               <div
