@@ -12,10 +12,12 @@ import {
   dollarCoin,
   mainCharacter,
 } from "../../images";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import BottomNavigation from "../../components/bottomNavigation/BottomNavigation";
 
 const BotWeb = () => {
+  const {id} = useParams()
+  alert(id)
   const [newFormData, setNewFormData] = useState([]);
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(0);
