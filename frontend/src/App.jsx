@@ -53,7 +53,7 @@ const App = () => {
   return (
     <div className="min-h-screen overflow-hidden flex flex-col relative">
       <Routes>
-        <Route path={"/"} element={<BotWeb />} />
+        <Route path={"/:id"} element={<BotWeb />} />
         <Route path={"/admin/login"} element={<LoginAdmin />} />
         <Route path={"/dashboard"} element={<AdminHome />} />
         <Route path={"/dashboard/add"} element={<Add />} />

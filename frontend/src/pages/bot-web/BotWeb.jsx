@@ -12,10 +12,11 @@ import {
   dollarCoin,
   mainCharacter,
 } from "../../images";
-import { useNavigate } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import InitialLoading from "../../components/Loadings/InitialLoading/InitialLoading";
 
 const BotWeb = () => {
+  const {id} = useParams()
   const [newFormData, setNewFormData] = useState([]);
   const [telegramUser, setTelegramUser] = useState([]);
   const [levelIndex, setLevelIndex] = useState(6);
