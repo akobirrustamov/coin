@@ -1,15 +1,10 @@
 from typing import Union
-
 import asyncpg
 from asyncpg import Connection
 from asyncpg.pool import Pool
-
 from data import config
-from data.config import DB_PORT
-
 
 class Database:
-
     def __init__(self):
         self.pool: Union[Pool, None] = None
 
@@ -19,83 +14,79 @@ class Database:
             password=config.DB_PASS,
             host=config.DB_HOST,
             database=config.DB_NAME,
-            port=DB_PORT,
+            port=config.DB_PORT,
         )
+        await self.execute("CREATE EXTENSION IF NOT EXISTS pgcrypto;", execute=True)
+        await self.create_table_users()
 
     async def execute(self, command, *args,
                       fetch: bool = False,
                       fetchval: bool = False,
                       fetchrow: bool = False,
-                      execute: bool = False
-                      ):
+                      execute: bool = False):
         async with self.pool.acquire() as connection:
             connection: Connection
             async with connection.transaction():
                 if fetch:
-                    result = await connection.fetch(command, *args)
+                    return await connection.fetch(command, *args)
                 elif fetchval:
-                    result = await connection.fetchval(command, *args)
+                    return await connection.fetchval(command, *args)
                 elif fetchrow:
-                    result = await connection.fetchrow(command, *args)
+                    return await connection.fetchrow(command, *args)
                 elif execute:
-                    result = await connection.execute(command, *args)
-            return result
+                    return await connection.execute(command, *args)
 
     async def create_table_users(self):
         sql = """
-        CREATE TABLE IF NOT EXISTS users_telegram (
-            id SERIAL PRIMARY KEY,
-            full_name VARCHAR(255) NOT NULL,
-            username VARCHAR(255),
-            telegram_id BIGINT NOT NULL UNIQUE
+        CREATE TABLE IF NOT EXISTS telegram_users (
+            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+            telegram_id BIGINT UNIQUE NOT NULL,
+            username TEXT,
+            full_name TEXT,
+            created_at TIMESTAMP DEFAULT (now() AT TIME ZONE 'Asia/Tashkent'),
+            is_first_time BOOLEAN DEFAULT TRUE,
+            available_coin INT DEFAULT 0,
+            level INT DEFAULT 1,
+            energy INT DEFAULT 1000
         );
         """
         await self.execute(sql, execute=True)
+        print("Users table created/verified")
 
-    @staticmethod
-    def format_args(sql, parameters: dict):
-        sql += " AND ".join([
-            f"{item} = ${num}" for num, item in enumerate(parameters.keys(), start=1)
-        ])
-        return sql, tuple(parameters.values())
+    async def add_user(self, telegram_id: int, username: str, full_name: str):
+        sql = """
+        INSERT INTO telegram_users (telegram_id, username, full_name)
+        VALUES ($1, $2, $3)
+        ON CONFLICT (telegram_id) DO UPDATE
+        SET username = EXCLUDED.username,
+            full_name = EXCLUDED.full_name
+        RETURNING *;
+        """
+        try:
+            result = await self.execute(
+                sql,
+                telegram_id,
+                username or "",
+                full_name or "",
+                fetchrow=True
+            )
+            print(f"User added/updated: {result}")
+            return result
+        except Exception as e:
+            print(f"[DB ERROR] Failed to add user: {e}")
+            return None
 
-    async def add_user(self, full_name, username, telegram_id):
-        sql = "INSERT INTO users_telegram (full_name, username, telegram_id) VALUES ($1, $2, $3) RETURNING *"
-        return await self.execute(sql, full_name, username, telegram_id, fetchrow=True)
-
-    async def select_all_users(self):
-        sql = "SELECT * FROM users_telegram"
-        return await self.execute(sql, fetch=True)
-
-    async def select_user(self, **kwargs):
-        sql = "SELECT * FROM users_telegram WHERE "
-        sql, parameters = self.format_args(sql, parameters=kwargs)
-        return await self.execute(sql, *parameters, fetchrow=True)
-
-    async def count_users(self):
-        sql = "SELECT COUNT(*) FROM users_telegram"
-        return await self.execute(sql, fetchval=True)
-
-    async def update_user_username(self, username, telegram_id):
-        sql = "UPDATE users_telegram SET username = $1 WHERE telegram_id = $2"
-        return await self.execute(sql, username, telegram_id, execute=True)
-
-    async def delete_users(self):
-        await self.execute("DELETE FROM users_telegram WHERE TRUE", execute=True)
-
-    async def drop_users(self):
-        await self.execute("DROP TABLE users_telegram", execute=True)
-
-
-
-
-
-    async def get_agent(self, telegram_id):
-        sql = "SELECT * FROM users WHERE phone = $1"
+    async def select_user(self, telegram_id: int):
+        sql = "SELECT * FROM telegram_users WHERE telegram_id = $1;"
         return await self.execute(sql, telegram_id, fetchrow=True)
 
-    async def get_agent_abuturients(self, agent_id):
-        sql = "SELECT * FROM abuturient WHERE agent_id = $1"
-        return await self.execute(sql, agent_id, fetch=True)
+    async def user_exists(self, telegram_id: int):
+        sql = "SELECT EXISTS(SELECT 1 FROM telegram_users WHERE telegram_id = $1);"
+        return await self.execute(sql, telegram_id, fetchval=True)
 
-
+    async def test_connection(self):
+        try:
+            return await self.execute("SELECT 1", fetchval=True) == 1
+        except Exception as e:
+            print(f"Connection test failed: {e}")
+            return False
