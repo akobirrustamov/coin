@@ -12,7 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCoinDto {
-    private LocalDateTime createdAt;
+//    private LocalDateTime createdAt;
     private Integer amount;
     private UUID userId;
     private Integer type;

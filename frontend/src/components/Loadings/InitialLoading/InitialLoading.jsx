@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import bg2 from "../img/bg2.png"; // Фоновое изображение
+import bg2 from "../img/bg2.jpg"; // Фоновое изображение
 import books from "../img/books.png"; // Книги
 import hat from "../img/hat.png"; // Шляпа
 import tasks from "../img/tasks.png"; // Задачи
