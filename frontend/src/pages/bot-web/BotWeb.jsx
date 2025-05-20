@@ -12,11 +12,11 @@ import {
   dollarCoin,
   mainCharacter,
 } from "../../images";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InitialLoading from "../../components/Loadings/InitialLoading/InitialLoading";
 
 const BotWeb = () => {
-  const {id} = useParams()
+  const { id } = useParams();
   const [newFormData, setNewFormData] = useState([]);
   const [telegramUser, setTelegramUser] = useState([]);
   const [levelIndex, setLevelIndex] = useState(6);
@@ -75,14 +75,15 @@ const BotWeb = () => {
 
     fetchUser();
   }, []);
+
   const handleIntroLoaded = async () => {
     try {
-      const userId = telegramUser?.[0]?.telegramId;
-      if (userId) {
-        await ApiCall("/api/v1/app/telegram-user", "PUT", {
-          id: userId,
-          isFirstTime: false,
-        });
+      const idResponse = await ApiCall("/api/v1/app/telegram-user", "GET");
+      const data = idResponse.data;
+      console.log("ID Response:", telegramUser.isFirstTime);
+
+      if (data.isFirstTime === true) {
+        await ApiCall("/api/v1/app/telegram-user/" + id, "PUT");
       }
     } catch (error) {
       console.error("Ошибка при обновлении isFirstTime:", error);
@@ -95,21 +96,22 @@ const BotWeb = () => {
     const interval = setInterval(async () => {
       const storedClicks = parseInt(localStorage.getItem("clicks") || "0");
       const storedEnergy = parseInt(localStorage.getItem("energy") || "1000");
-      const idResponse = await ApiCall("/api/v1/app/telegram-user", "GET");
-      const data = idResponse.data;
-      const userId = data?.[0]?.telegramId;
+
+      const obj = {
+        userId: id,
+        amount: storedClicks,
+        energy: storedEnergy,
+        type: 1,
+        timestamp: Date.now(),
+      };
+      console.log("obj:", obj);
+
       if (storedClicks > 0) {
         try {
-          await ApiCall("/api/v1/app/user-coin/", "POST", {
-            // headers: token ? { Authorization: token } : {},
-            data: {
-              userId: userId,
-              amount: storedClicks,
-              energy: storedEnergy,
-              type: 1,
-              timestamp: Date.now(),
-            },
-          });
+          const res = await ApiCall("/api/v1/user-coin/" + id, "POST", obj);
+
+          console.log("post:", res.data);
+
           localStorage.setItem("clicks", "0");
           setLocalClicks(0);
           const updatedUser = await ApiCall("/api/v1/app/telegram-user", "GET");
@@ -301,7 +303,7 @@ const BotWeb = () => {
                       className="w-4 h-4"
                     />
                     <p className="text-white text-base font-bold">
-                      👛 Total coin: {totalCoins}
+                      Total coin: {totalCoins}
                     </p>
                   </div>
                   <div className="text-white text-xs">

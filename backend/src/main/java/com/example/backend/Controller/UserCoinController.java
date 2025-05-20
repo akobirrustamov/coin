@@ -12,12 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/app/user-coin")
+@RequestMapping("/api/v1/user-coin")
 @RequiredArgsConstructor
 public class UserCoinController {
     private final UserCoinRepo userCoinRepo;
@@ -47,6 +48,8 @@ public class UserCoinController {
 
     @PostMapping("/{id}")
     public UserCoin saveCoin(@PathVariable UUID id, @RequestBody UserCoinDto userCoin){
+        System.out.println(userCoin);
+        System.out.println(id);
 //        if (!jwtServiceTelegramUser.validateToken(token)) {
 //            throw new RuntimeException("Token is expired or invalid");
 //        }
@@ -64,6 +67,7 @@ public class UserCoinController {
         coin.setType(userCoin.getType());
         coin.setEnergy(userCoin.getEnergy());
         coin.setTimestamp(userCoin.getTimestamp());
+//        coin.setTimestamp(null);
         telegramUser.setAvailableCoin(telegramUser.getAvailableCoin()+userCoin.getAmount());
 
         telegramUserRepo.save(telegramUser);
