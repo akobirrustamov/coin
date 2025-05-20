@@ -28,6 +28,7 @@ public class TelegramUser {
     private Boolean isFirsTime;
     private Integer availableCoin;
     private Integer level;
+    private Integer energy;
 
 
 
