@@ -61,6 +61,7 @@ public class UserCoinController {
         coin.setCreatedAt(LocalDateTime.now());
         coin.setType(userCoin.getType());
         coin.setEnergy(userCoin.getEnergy());
+        coin.setTimestamp(userCoin.getTimestamp());
         telegramUser.setAvailableCoin(telegramUser.getAvailableCoin()+userCoin.getAmount());
 
         telegramUserRepo.save(telegramUser);

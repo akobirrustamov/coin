@@ -28,18 +28,6 @@ async def bot_start(message: types.Message):
 async def send_welcome_message(message: Message):
     text = (
         "🤝 *XUSH KELIBSIZ!*\n\n"
-        "🏛 *BUXORO XALQARO UNIVERSITETI RIVOJIGA O'Z HISSAMNI QO'SHAMAN*"
-    )
-    keyboard = InlineKeyboardMarkup(row_width=1)
-    keyboard.add(
-        InlineKeyboardButton("✅ Qabul", url="https://qabul.bxu.uz"),
-        InlineKeyboardButton("🔲 Mening QR kodim", callback_data="my_qr"),
-        InlineKeyboardButton("Ta'lim yo'nalishlari", callback_data="directions"),
-        InlineKeyboardButton("📸 Universitet haqida (Instagram)", url="https://www.instagram.com/bxu.uz/"),
-        InlineKeyboardButton("👥 Men tavsiya qilganlar", callback_data="recommendations"),
-        InlineKeyboardButton("💰 Grantlar", callback_data="grant"),
-        InlineKeyboardButton("🤖 Yoriqnoma", callback_data="guide"),
-        InlineKeyboardButton("☎️ Biz bilan bog'lanish", callback_data="contact_us"),
 
     )
-    await message.answer(text, reply_markup=keyboard, parse_mode="Markdown")
+    await message.answer(text, parse_mode="Markdown")
