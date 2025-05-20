@@ -13,10 +13,10 @@ import {
   mainCharacter,
 } from "../../images";
 import { useNavigate } from "react-router-dom";
-import BottomNavigation from "../../components/bottomNavigation/BottomNavigation";
 
 const BotWeb = () => {
   const [newFormData, setNewFormData] = useState([]);
+  const [telegramUser, setTelegramUser] = useState([]);
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(0);
   const [clicks, setClicks] = useState([]);
@@ -33,37 +33,71 @@ const BotWeb = () => {
   const [localClicks, setLocalClicks] = useState(() => {
     return parseInt(localStorage.getItem("clicks") || "0");
   });
+  useEffect(() => {
+    const fetchAdd = async () => {
+      try {
+        const response = await ApiCall("/api/v1/news", "GET", null, null, true);
+        setNewFormData(response.data);
+      } catch (error) {
+        console.error("Error fetching news:", error);
+        setNewFormData([]);
+      }
+    };
+    fetchAdd();
+  }, []);
 
-  // useEffect(() => {
-  //   const fetchAdd = async () => {
-  //     try {
-  //       const response = await ApiCall("/api/v1/news", "GET", null, null, true);
-  //       setNewFormData(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching news:", error);
-  //       setNewFormData([]);
-  //     }
-  //   };
-  //   fetchAdd();
-  // }, []);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await ApiCall("/api/v1/app/telegram-user", "GET");
+        console.log(response);
+        if (!response.error) {
+          setTelegramUser(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching telegram-user:", error);
+        setTelegramUser([]);
+      }
+    };
 
-  // useEffect(() => {
-  //   const interval = setInterval(async () => {
-  //     const storedClicks = parseInt(localStorage.getItem("clicks") || "0");
+    fetchUser();
+  }, []);
 
-  //     if (storedClicks > 0) {
-  //       try {
-  //         await ApiCall("/api/v1/clicks", "POST", { clicks: storedClicks });
-  //         localStorage.setItem("clicks", "0");
-  //         setLocalClicks(0);
-  //       } catch (err) {
-  //         console.error("Error sending clicks to server", err);
-  //       }
-  //     }
-  //   }, 30000); // каждые 30 сек
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      const storedClicks = parseInt(localStorage.getItem("clicks") || "0");
+      const storedEnergy = parseInt(localStorage.getItem("energy") || "100");
 
-  //   return () => clearInterval(interval);
-  // }, []);
+      if (storedClicks > 0) {
+        console.log("Отправка данных:", {
+          amount: storedClicks,
+          energy: storedEnergy,
+          type: 1,
+          timestamp: Date.now(),
+        });
+
+        try {
+          await ApiCall("/api/v1/app/user-coin", "POST", {
+            headers: token ? { Authorization: token } : {},
+            data: {
+              amount: storedClicks,
+              energy: storedEnergy,
+              type: 1,
+              timestamp: Date.now(),
+            },
+          });
+          console.log("✅ Данные отправлены успешно");
+
+          localStorage.setItem("clicks", "0");
+          setLocalClicks(0);
+        } catch (err) {
+          console.error("❌ Ошибка при отправке user-coin:", err);
+        }
+      }
+    }, 30000); // 30 сек
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const maxEnergy = 100;
@@ -198,7 +232,6 @@ const BotWeb = () => {
       { breakpoint: 480, settings: { slidesToShow: 1, centerPadding: "0px" } },
     ],
   };
-  
 
   return (
     <div className="bg-gradient-to-b from-gray-100 to-gray-200 flex justify-center min-h-0 h-screen overflow-hidden">
@@ -230,27 +263,28 @@ const BotWeb = () => {
           <div className="mt-4">
             <div className="max-w-md mx-auto">
               <Slider {...sliderSettings}>
-                {newFormData.map((newsItem) => (
-                  <div key={newsItem.id} className="px-1">
-                    <div className="flex gap-6">
-                      <div className="relative h-10">
-                        <img
-                          src={`${baseUrl}/api/v1/file/getFile/${newsItem.mainPhoto.id}`}
-                          alt={newsItem.title}
-                          className="w-full h-8 object-cover rounded"
-                        />
-                      </div>
-                      <div>
-                        <h3 className="text-sm text-white font-semibold line-clamp-1">
-                          {newsItem.title}
-                        </h3>
-                        <p className="text-fuchsia-100 text-xs line-clamp-2">
-                          {newsItem.description}
-                        </p>
+                {newFormData &&
+                  newFormData.map((newsItem) => (
+                    <div key={newsItem.id} className="px-1 ">
+                      <div className="flex gap-6 overflow-hidden mx-1">
+                        <div className="relative h-10">
+                          <img
+                            src={`${baseUrl}/api/v1/file/getFile/${newsItem.mainPhoto.id}`}
+                            alt={newsItem.title}
+                            className="w-full h-8 object-cover rounded"
+                          />
+                        </div>
+                        <div className="">
+                          <h3 className="text-sm text-white font-semibold line-clamp-1">
+                            {newsItem.title}
+                          </h3>
+                          <p className="text-fuchsia-100 text-xs line-clamp-2">
+                            {newsItem.description}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </Slider>
             </div>
           </div>
