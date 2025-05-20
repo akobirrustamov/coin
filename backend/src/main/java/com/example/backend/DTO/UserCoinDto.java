@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -17,5 +18,5 @@ public class UserCoinDto {
     private UUID userId;
     private Integer type;
     private Integer energy;
-    private Timestamp timestamp;
+    private BigInteger timestamp;
 }

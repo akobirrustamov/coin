@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class UserCoin {
     private LocalDateTime createdAt;
     private Integer amount;
     private Integer energy;
-    private Timestamp timestamp;
+    private BigInteger timestamp;
     @ManyToOne
     private TelegramUser telegramUser;
     private Integer type;
@@ -40,7 +41,7 @@ public class UserCoin {
 //    9 any reward
 
 
-    public UserCoin(LocalDateTime createdAt, Integer amount, TelegramUser telegramUser, Integer type, Integer energy, Timestamp timestamp) {
+    public UserCoin(LocalDateTime createdAt, Integer amount, TelegramUser telegramUser, Integer type, Integer energy, BigInteger timestamp) {
         this.createdAt = createdAt;
         this.amount = amount;
         this.telegramUser = telegramUser;

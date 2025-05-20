@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,15 @@ public class TelegramUserController {
     public HttpEntity<?> findAll() {
         List<TelegramUser> all = telegramUserRepo.findAll();
         return new ResponseEntity<>(all, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public HttpEntity<?> findAll(@PathVariable UUID id) {
+        Optional<TelegramUser> byId = telegramUserRepo.findById(id);
+        if(byId.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(byId.get(), HttpStatus.OK);
     }
 
 

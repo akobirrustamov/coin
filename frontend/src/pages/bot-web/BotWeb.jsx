@@ -18,7 +18,7 @@ import InitialLoading from "../../components/Loadings/InitialLoading/InitialLoad
 const BotWeb = () => {
   const { id } = useParams();
   const [newFormData, setNewFormData] = useState([]);
-  const [telegramUser, setTelegramUser] = useState([]);
+  const [telegramUser, setTelegramUser] = useState(null);
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(0);
   const [clicks, setClicks] = useState([]);
@@ -52,35 +52,37 @@ const BotWeb = () => {
   }, []);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await ApiCall("/api/v1/app/telegram-user", "GET");
-        console.log("Telegram User:", response.data);
-        if (!response.error) {
-          setTelegramUser(response.data);
 
-          // Проверяем isFirstTime
-          const user = response.data?.[0];
-          if (user?.isFirstTime) {
-            setShowIntroLoading(true);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching telegram-user:", error);
-        setTelegramUser([]);
-      } finally {
-        setIsUserLoading(false);
-      }
-    };
 
     fetchUser();
   }, []);
+  const fetchUser = async () => {
+    try {
+      const response = await ApiCall("/api/v1/app/telegram-user/"+id, "GET");
+      console.log("Telegram User:", response.data);
+      if (!response.error) {
+        setTelegramUser(response.data);
+
+        // Проверяем isFirstTime
+        const user = response.data?.[0];
+        if (user?.isFirstTime) {
+          setShowIntroLoading(true);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching telegram-user:", error);
+      setTelegramUser(null);
+    } finally {
+      setIsUserLoading(false);
+    }
+  };
 
   const handleIntroLoaded = async () => {
     try {
-      const idResponse = await ApiCall("/api/v1/app/telegram-user", "GET");
+      const idResponse = await ApiCall("/api/v1/app/telegram-user"+id, "GET");
       const data = idResponse.data;
-      console.log("ID Response:", telegramUser.isFirstTime);
+      alert(JSON.stringify(data.isFirstTime))
+      console.log("ID Response:", data?.isFirstTime);
 
       if (data.isFirstTime === true) {
         await ApiCall("/api/v1/app/telegram-user/" + id, "PUT");
@@ -114,7 +116,7 @@ const BotWeb = () => {
 
           localStorage.setItem("clicks", "0");
           setLocalClicks(0);
-          const updatedUser = await ApiCall("/api/v1/app/telegram-user", "GET");
+          const updatedUser = await ApiCall("/api/v1/app/telegram-user"+id, "GET");
           if (!updatedUser.error) {
             const user = updatedUser.data?.[0];
             setFetchedCoin(user.availableCoin);
@@ -264,21 +266,21 @@ const BotWeb = () => {
   };
   const totalCoins = fetchedCoin + localClicks;
   const totalEnergy = fetchedEnergy + (energy - fetchedEnergy);
-  // if (isUserLoading) {
-  //   return <div className="text-white text-center mt-20">Загрузка...</div>;
-  // }
+  if (isUserLoading) {
+    return <div className="text-white text-center mt-20">Загрузка...</div>;
+  }
 
-  // if (showIntroLoading) {
-  //   return <InitialLoading onLoaded={handleIntroLoaded} />;
-  // }
+  if (showIntroLoading) {
+    return <InitialLoading onLoaded={handleIntroLoaded} />;
+  }
   return (
     <div className="bg-gradient-to-b from-gray-100 to-gray-200 flex justify-center min-h-0 h-screen overflow-hidden">
       <div className="w-full max-w-xl flex flex-col pb-20">
         {/* Header */}
         {telegramUser &&
-          telegramUser.map((user) => (
+
             <div
-              key={user.telegramId}
+              key={telegramUser.telegramId}
               className="px-6 pt-2 pb-4 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10"
             >
               <div className="flex items-center justify-between">
@@ -288,10 +290,10 @@ const BotWeb = () => {
                   </div>
                   <div>
                     <p className="text-white text-lg font-semibold">
-                      {user?.fullName}
+                      {telegramUser?.fullName}
                     </p>
                     <p className="text-white text-opacity-80 text-xs">
-                      Level {user?.level}
+                      Level {telegramUser?.level}
                     </p>
                   </div>
                 </div>
@@ -342,7 +344,7 @@ const BotWeb = () => {
                 </div>
               </div>
             </div>
-          ))}
+        }
         {/* Main Content */}
         <div className="flex-grow flex flex-col px-6 bg-gray-100 rounded-3xl shadow-inner z-0">
           {/* Daily Activities */}
