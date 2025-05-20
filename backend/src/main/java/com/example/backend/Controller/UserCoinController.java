@@ -25,14 +25,15 @@ public class UserCoinController {
     private final JwtServiceTelegramUser jwtServiceTelegramUser;
 
 
-    @GetMapping("/{token}")
-    public HttpEntity<?> getUserCoin(@PathVariable String token) {
+    @GetMapping("/{id}")
+    public HttpEntity<?> getUserCoin(@PathVariable UUID id) {
 
-        if (!jwtServiceTelegramUser.validateToken(token)) {
-            throw new RuntimeException("Token is expired or invalid");
-        }
-        String tgUserId = jwtServiceTelegramUser.extractSubjectFromJwt(token);
-        Optional<TelegramUser> byId = telegramUserRepo.findById(UUID.fromString(tgUserId));
+//        if (!jwtServiceTelegramUser.validateToken(token)) {
+//            throw new RuntimeException("Token is expired or invalid");
+//        }
+//        String tgUserId = jwtServiceTelegramUser.extractSubjectFromJwt(token);
+//        Optional<TelegramUser> byId = telegramUserRepo.findById(UUID.fromString(tgUserId));
+        Optional<TelegramUser> byId = telegramUserRepo.findById(id);
         if (!byId.isPresent()) {
             throw new RuntimeException("User not found");
         }
@@ -44,13 +45,14 @@ public class UserCoinController {
 
 
 
-    @PostMapping("/{token}")
-    public UserCoin saveCoin(@PathVariable String token, @RequestBody UserCoinDto userCoin){
-        if (!jwtServiceTelegramUser.validateToken(token)) {
-            throw new RuntimeException("Token is expired or invalid");
-        }
-        String tgUserId = jwtServiceTelegramUser.extractSubjectFromJwt(token);
-        Optional<TelegramUser> byId = telegramUserRepo.findById(UUID.fromString(tgUserId));
+    @PostMapping("/{id}")
+    public UserCoin saveCoin(@PathVariable UUID id, @RequestBody UserCoinDto userCoin){
+//        if (!jwtServiceTelegramUser.validateToken(token)) {
+//            throw new RuntimeException("Token is expired or invalid");
+//        }
+//        String tgUserId = jwtServiceTelegramUser.extractSubjectFromJwt(token);
+//        Optional<TelegramUser> byId = telegramUserRepo.findById(UUID.fromString(tgUserId));
+        Optional<TelegramUser> byId = telegramUserRepo.findById(id);
         if (!byId.isPresent()) {
             throw new RuntimeException("User not found");
         }

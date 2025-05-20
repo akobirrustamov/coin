@@ -28,13 +28,14 @@ public class TelegramUserController {
 
 
 
-    @PutMapping("/is-first-time/{token}")
-    public HttpEntity<?> isFirstTime(@PathVariable String token) {
-        if (!jwtServiceTelegramUser.validateToken(token)) {
-            throw new RuntimeException("Token is expired or invalid");
-        }
-        String tgUserId = jwtServiceTelegramUser.extractSubjectFromJwt(token);
-        Optional<TelegramUser> byId = telegramUserRepo.findById(UUID.fromString(tgUserId));
+    @PutMapping("/is-first-time/{id}")
+    public HttpEntity<?> isFirstTime(@PathVariable UUID id) {
+//        if (!jwtServiceTelegramUser.validateToken(token)) {
+//            throw new RuntimeException("Token is expired or invalid");
+//        }
+//        String tgUserId = jwtServiceTelegramUser.extractSubjectFromJwt(token);
+//        Optional<TelegramUser> byId = telegramUserRepo.findById(UUID.fromString(tgUserId));
+        Optional<TelegramUser> byId = telegramUserRepo.findById(id);
         if (!byId.isPresent()) {
             throw new RuntimeException("User not found");
         }
