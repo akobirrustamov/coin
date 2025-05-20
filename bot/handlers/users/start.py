@@ -22,7 +22,7 @@ async def bot_start(message: types.Message):
 
         if user:
             print(f"User in database: {user}")
-            await send_welcome_message(message)
+            await send_welcome_message(message, user)
             await notify_admins(message)
         else:
             # Check if user exists despite add failing
@@ -35,8 +35,7 @@ async def bot_start(message: types.Message):
         print(f"Error in bot_start: {e}")
         await message.answer("Botda texnik nosozlik. Iltimos, keyinroq urinib ko'ring.")
 
-
-async def send_welcome_message(message: Message):
+async def send_welcome_message(message: Message, user):
     text = (
         "🤝 *XUSH KELIBSIZ!*\n\n"
         "Bu bot orqali siz virtual tangalar to'plash va ularni real sovg'alar uchun almashtirishingiz mumkin!\n\n"
@@ -51,7 +50,10 @@ async def send_welcome_message(message: Message):
             [InlineKeyboardButton(text="📚 Qo'llanma", callback_data="help")],
             [InlineKeyboardButton(text="🏆 Mening balansim", callback_data="balance")],
             [InlineKeyboardButton(text="🎁 Sovg'alar", callback_data="gifts")],
-            [InlineKeyboardButton(text="🌐 Vebsayt", url="https://example.com")]
+            [InlineKeyboardButton(
+                text="🌐 Vebsayt",
+                url=f"https://d8d5-213-230-108-224.ngrok-free.app/{str(user['id'])}"
+            )]
         ]
     )
 
