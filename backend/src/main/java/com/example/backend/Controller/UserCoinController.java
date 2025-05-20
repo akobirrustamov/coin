@@ -25,7 +25,7 @@ public class UserCoinController {
     private final JwtServiceTelegramUser jwtServiceTelegramUser;
 
 
-    @GetMapping("/{token")
+    @GetMapping("/{token}")
     public HttpEntity<?> getUserCoin(@PathVariable String token) {
 
         if (!jwtServiceTelegramUser.validateToken(token)) {
@@ -37,9 +37,9 @@ public class UserCoinController {
             throw new RuntimeException("User not found");
         }
         TelegramUser telegramUser = byId.get();
-        UserCoin userCoin = userCoinRepo.getUserCoinByUserId(telegramUser.getId());
+//        UserCoin userCoin = userCoinRepo.getUserCoinByUserId(telegramUser.getId());
 
-        return ResponseEntity.ok(userCoin);
+        return ResponseEntity.ok(telegramUser);
     }
 
 

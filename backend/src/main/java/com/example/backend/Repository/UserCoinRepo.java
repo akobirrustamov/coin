@@ -10,5 +10,5 @@ public interface UserCoinRepo extends JpaRepository<UserCoin,Integer> {
 
 
 //    @Query(value = "select * from user_coin where  ")
-    UserCoin getUserCoinByUserId(UUID id);
+//    UserCoin getUserCoinByUserId(UUID id);
 }
