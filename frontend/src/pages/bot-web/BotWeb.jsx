@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy } from "react";
 import ApiCall, { baseUrl } from "../config/index";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -14,6 +14,11 @@ import {
 } from "../../images";
 import { useNavigate, useParams } from "react-router-dom";
 import InitialLoading from "../../components/Loadings/InitialLoading/InitialLoading";
+import Loading from "../../components/Loadings/ScreenLoading/ScreenLoading";
+import BottomNavigation from "../../components/bottomNavigation/BottomNavigation";
+const FirstLoginRewardModal = lazy(() =>
+  import("../../components/FirstLoginRewardModal")
+);
 
 const BotWeb = () => {
   const { id } = useParams();
@@ -26,7 +31,7 @@ const BotWeb = () => {
   const navigate = useNavigate();
   const [showIntroLoading, setShowIntroLoading] = useState(false);
   const [isUserLoading, setIsUserLoading] = useState(true);
-  const [fetchedCoin, setFetchedCoin] = useState(0);
+  const [fetchedCoin, setFetchedCoin] = useState(null);
   const [fetchedEnergy, setFetchedEnergy] = useState(0);
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("00:00");
   const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("00:00");
@@ -38,34 +43,34 @@ const BotWeb = () => {
   const [localClicks, setLocalClicks] = useState(() => {
     return parseInt(localStorage.getItem("clicks") || "0");
   });
+  const [showFirstLoginReward, setShowFirstLoginReward] = useState(false);
+  const [isFirstTime, setIsFirstTime] = useState(false);
+
   useEffect(() => {
-    const fetchAdd = async () => {
-      try {
-        const response = await ApiCall("/api/v1/news", "GET", null, null, true);
-        setNewFormData(response.data);
-      } catch (error) {
-        console.error("Error fetching news:", error);
-        setNewFormData([]);
-      }
-    };
+    fetchUser();
     fetchAdd();
   }, []);
-
-  useEffect(() => {
-
-
-    fetchUser();
-  }, []);
+  const fetchAdd = async () => {
+    try {
+      const response = await ApiCall("/api/v1/news", "GET", null, null, true);
+      setNewFormData(response.data);
+    } catch (error) {
+      console.error("Error fetching news:", error);
+      setNewFormData([]);
+    }
+  };
   const fetchUser = async () => {
     try {
-      const response = await ApiCall("/api/v1/app/telegram-user/"+id, "GET");
+      const response = await ApiCall("/api/v1/app/telegram-user/" + id, "GET");
       console.log("Telegram User:", response.data);
       if (!response.error) {
-        setTelegramUser(response.data);
+        const userData = response.data;
+        setFetchedCoin(userData.availableCoin || 0);
+        setFetchedEnergy(userData.energy || 0);
+        setTelegramUser(userData);
 
-        // Проверяем isFirstTime
-        const user = response.data?.[0];
-        if (user?.isFirstTime) {
+        setIsFirstTime(userData.isFirstTime === true);
+        if (userData.isFirstTime === true) {
           setShowIntroLoading(true);
         }
       }
@@ -76,22 +81,11 @@ const BotWeb = () => {
       setIsUserLoading(false);
     }
   };
-
-  const handleIntroLoaded = async () => {
-    try {
-      const idResponse = await ApiCall("/api/v1/app/telegram-user"+id, "GET");
-      const data = idResponse.data;
-      alert(JSON.stringify(data.isFirstTime))
-      console.log("ID Response:", data?.isFirstTime);
-
-      if (data.isFirstTime === true) {
-        await ApiCall("/api/v1/app/telegram-user/" + id, "PUT");
-      }
-    } catch (error) {
-      console.error("Ошибка при обновлении isFirstTime:", error);
-    } finally {
-      setShowIntroLoading(false);
+  const handleIntroLoaded = () => {
+    if (isFirstTime) {
+      setShowFirstLoginReward(true);
     }
+    setShowIntroLoading(false);
   };
 
   useEffect(() => {
@@ -106,19 +100,25 @@ const BotWeb = () => {
         type: 1,
         timestamp: Date.now(),
       };
-      console.log("obj:", obj);
 
       if (storedClicks > 0) {
         try {
           const res = await ApiCall("/api/v1/user-coin/" + id, "POST", obj);
-
           console.log("post:", res.data);
-
-          localStorage.setItem("clicks", "0");
-          setLocalClicks(0);
-          const updatedUser = await ApiCall("/api/v1/app/telegram-user"+id, "GET");
+          if (!res.error) {
+            localStorage.setItem("clicks", "0");
+            setLocalClicks(0);
+          }
+          const updatedUser = await ApiCall(
+            "/api/v1/app/telegram-user/" + id,
+            "GET"
+          );
+          console.log("Updated User:", updatedUser.data);
           if (!updatedUser.error) {
-            const user = updatedUser.data?.[0];
+            const user = updatedUser.data;
+            console.log("Updated User:", user);
+            console.log("Updated User Coin:", user.availableCoin);
+
             setFetchedCoin(user.availableCoin);
             setFetchedEnergy(user.energy);
           }
@@ -126,7 +126,7 @@ const BotWeb = () => {
           console.error("❌ Ошибка при отправке user-coin:", err);
         }
       }
-    }, 3000); // 30 сек
+    }, 30000); //  сек
 
     return () => clearInterval(interval);
   }, []);
@@ -264,10 +264,14 @@ const BotWeb = () => {
       { breakpoint: 480, settings: { slidesToShow: 1, centerPadding: "0px" } },
     ],
   };
-  const totalCoins = fetchedCoin + localClicks;
+  const totalCoins = fetchedCoin === null ? 0 : fetchedCoin + localClicks;
   const totalEnergy = fetchedEnergy + (energy - fetchedEnergy);
   if (isUserLoading) {
-    return <div className="text-white text-center mt-20">Загрузка...</div>;
+    return (
+      <div className="bg-gradient-to-b from-gray-100 to-gray-200 flex justify-center items-center min-h-0 h-screen overflow-hidden">
+        <Loading />;
+      </div>
+    );
   }
 
   if (showIntroLoading) {
@@ -277,74 +281,69 @@ const BotWeb = () => {
     <div className="bg-gradient-to-b from-gray-100 to-gray-200 flex justify-center min-h-0 h-screen overflow-hidden">
       <div className="w-full max-w-xl flex flex-col pb-20">
         {/* Header */}
-        {telegramUser &&
-
-            <div
-              key={telegramUser.telegramId}
-              className="px-6 pt-2 pb-4 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 rounded-xl bg-white bg-opacity-20 backdrop-blur-sm shadow-md">
-                    <Hamster size={28} className="text-white" />
-                  </div>
-                  <div>
-                    <p className="text-white text-lg font-semibold">
-                      {telegramUser?.fullName}
-                    </p>
-                    <p className="text-white text-opacity-80 text-xs">
-                      Level {telegramUser?.level}
-                    </p>
-                  </div>
+        {telegramUser && (
+          <div
+            key={telegramUser.telegramId}
+            className="px-6 pt-2 pb-4 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-xl bg-white bg-opacity-20 backdrop-blur-sm shadow-md">
+                  <Hamster size={28} className="text-white" />
                 </div>
-                <div className="flex flex-col items-end bg-white bg-opacity-20 backdrop-blur-sm rounded-xl px-4 py-2 shadow-md space-y-1">
-                  <div className="flex items-center space-x-1">
-                    <img
-                      src={dollarCoin}
-                      alt="Dollar Coin"
-                      className="w-4 h-4"
-                    />
-                    <p className="text-white text-base font-bold">
-                      Total coin: {totalCoins}
-                    </p>
-                  </div>
-                  <div className="text-white text-xs">
-                    ⚡ Energy: {totalEnergy}
-                  </div>
+                <div>
+                  <p className="text-white text-lg font-semibold">
+                    {telegramUser?.fullName}
+                  </p>
+                  <p className="text-white text-opacity-80 text-xs">
+                    Level {telegramUser?.level}
+                  </p>
                 </div>
               </div>
-
-              {/* Slider */}
-              <div className="mt-4">
-                <div className="max-w-md mx-auto">
-                  <Slider {...sliderSettings}>
-                    {newFormData &&
-                      newFormData.map((newsItem) => (
-                        <div key={newsItem.id} className="px-1 ">
-                          <div className="flex gap-6 overflow-hidden mx-1">
-                            <div className="relative h-10">
-                              <img
-                                src={`${baseUrl}/api/v1/file/getFile/${newsItem.mainPhoto.id}`}
-                                alt={newsItem.title}
-                                className="w-full h-8 object-cover rounded"
-                              />
-                            </div>
-                            <div className="">
-                              <h3 className="text-sm text-white font-semibold line-clamp-1">
-                                {newsItem.title}
-                              </h3>
-                              <p className="text-fuchsia-100 text-xs line-clamp-2">
-                                {newsItem.description}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                  </Slider>
+              <div className="flex flex-col items-end bg-white bg-opacity-20 backdrop-blur-sm rounded-xl px-4 py-2 shadow-md space-y-1">
+                <div className="flex items-center space-x-1">
+                  <img src={dollarCoin} alt="Dollar Coin" className="w-4 h-4" />
+                  <p className="text-white text-base font-bold">
+                    Total coin: {totalCoins}
+                  </p>
+                </div>
+                <div className="text-white text-xs">
+                  ⚡ Energy: {totalEnergy}
                 </div>
               </div>
             </div>
-        }
+
+            {/* Slider */}
+            <div className="mt-4">
+              <div className="max-w-md mx-auto">
+                <Slider {...sliderSettings}>
+                  {newFormData &&
+                    newFormData.map((newsItem) => (
+                      <div key={newsItem.id} className="px-1 ">
+                        <div className="flex gap-6 overflow-hidden mx-1">
+                          <div className="relative h-10">
+                            <img
+                              src={`${baseUrl}/api/v1/file/getFile/${newsItem.mainPhoto.id}`}
+                              alt={newsItem.title}
+                              className="w-full h-8 object-cover rounded"
+                            />
+                          </div>
+                          <div className="">
+                            <h3 className="text-sm text-white font-semibold line-clamp-1">
+                              {newsItem.title}
+                            </h3>
+                            <p className="text-fuchsia-100 text-xs line-clamp-2">
+                              {newsItem.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </Slider>
+              </div>
+            </div>
+          </div>
+        )}
         {/* Main Content */}
         <div className="flex-grow flex flex-col px-6 bg-gray-100 rounded-3xl shadow-inner z-0">
           {/* Daily Activities */}
@@ -395,7 +394,6 @@ const BotWeb = () => {
             ))}
           </div>
 
-          {/* Clicker */}
           <div className="flex-grow flex items-center justify-center">
             <div className="relative flex justify-center items-center">
               <div
@@ -410,8 +408,6 @@ const BotWeb = () => {
                 />
                 <div className="absolute inset-0 rounded-full shadow-inner z-0"></div>
               </div>
-
-              {/* Всплывающие +1 */}
               {clicks.map((click) => (
                 <div
                   key={click.id}
@@ -430,6 +426,16 @@ const BotWeb = () => {
           </div>
         </div>
       </div>
+      {showFirstLoginReward && telegramUser && (
+        <FirstLoginRewardModal
+          telegramUser={telegramUser}
+          onRewardClaimed={(amount) => {
+            setFetchedCoin((prev) => (prev || 0) + amount);
+          }}
+          onClose={() => setShowFirstLoginReward(false)}
+        />
+      )}
+      <BottomNavigation />
     </div>
   );
 };

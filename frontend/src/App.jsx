@@ -10,7 +10,6 @@ import Add from "./pages/admin/add/Add.jsx";
 import Mission from "./pages/admin/mission/Mission.jsx";
 import User from "./pages/admin/users/User.jsx";
 import DailyReward from "./pages/dailyReward/DailyReward.jsx";
-import BottomNavigation from "./components/bottomNavigation/BottomNavigation.jsx";
 import Ordinary from "./pages/admin/mission/ordinary/Ordinary.jsx";
 import Level from "./pages/admin/mission/level/Level.jsx";
 import Cinema from "./pages/admin/mission/cinema/Cinema.jsx";
@@ -72,7 +71,6 @@ const App = () => {
           <Route path={"cinema-task"} element={<CinemaTask />} />
         </Route>
       </Routes>
-      {!location.pathname.startsWith("/dashboard") && <BottomNavigation />}
     </div>
   );
 };
