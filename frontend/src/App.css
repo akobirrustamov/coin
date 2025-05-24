@@ -34,12 +34,13 @@
 }
 
 .click-card {
-  background: radial-gradient(circle, #4960b2, #282e3e);
+  background: radial-gradient(circle, #e3ff2ea3, #0023a0b5);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  /* background-color: rgba(76, 0, 130, 0.545); */
 }
 
 @keyframes float {
@@ -53,6 +54,7 @@
     transform: translateY(-50px);
   }
 }
+
 .click-card {
   transition: transform 0.1s ease-in-out;
 }
@@ -75,6 +77,7 @@ body {
     transform: translateY(0) rotate(0deg);
     opacity: 1;
   }
+
   100% {
     transform: translateY(100px) rotate(360deg);
     opacity: 0;
@@ -93,9 +96,11 @@ body {
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
+
   100% {
     transform: scale(1);
   }
@@ -109,6 +114,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

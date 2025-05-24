@@ -52,7 +52,7 @@ async def send_welcome_message(message: Message, user):
             [InlineKeyboardButton(text="🎁 Sovg'alar", callback_data="gifts")],
             [InlineKeyboardButton(
                 text="🌐 Vebsayt",
-                url=f"https://beb9-213-230-108-224.ngrok-free.app/{str(user['id'])}"
+                url=f"https://aa77-213-230-108-224.ngrok-free.app/{str(user['id'])}"
             )]
         ]
     )

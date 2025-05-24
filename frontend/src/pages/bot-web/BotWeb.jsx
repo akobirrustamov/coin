@@ -10,8 +10,10 @@ import {
   dailyCombo,
   dailyReward,
   dollarCoin,
-  mainCharacter,
+  // mainCharacter,
 } from "../../images";
+import mainCharacter from "../../images/mainCharacter.png";
+import mainBg from "../../images/mainBg.png";
 import { useNavigate, useParams } from "react-router-dom";
 import InitialLoading from "../../components/Loadings/InitialLoading/InitialLoading";
 import Loading from "../../components/Loadings/ScreenLoading/ScreenLoading";
@@ -269,7 +271,7 @@ const BotWeb = () => {
   if (isUserLoading) {
     return (
       <div className="bg-gradient-to-b from-gray-100 to-gray-200 flex justify-center items-center min-h-0 h-screen overflow-hidden">
-        <Loading />;
+        <Loading />
       </div>
     );
   }
@@ -278,21 +280,21 @@ const BotWeb = () => {
     return <InitialLoading onLoaded={handleIntroLoaded} />;
   }
   return (
-    <div className="bg-gradient-to-b from-gray-100 to-gray-200 flex justify-center min-h-0 h-screen overflow-hidden">
+    <div className="bg-black flex justify-center min-h-0 h-screen overflow-hidden">
       <div className="w-full max-w-xl flex flex-col pb-20">
         {/* Header */}
         {telegramUser && (
           <div
             key={telegramUser.telegramId}
-            className="px-6 pt-2 pb-4 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10"
+            className="px-4 py-3 bg-gradient-to-r from-purple-600 to-blue-500 rounded-b-3xl shadow-lg z-10"
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="p-2 rounded-xl bg-white bg-opacity-20 backdrop-blur-sm shadow-md">
+              <div className="flex items-center space-x-2">
+                <div className="p-2 rounded-xl bg-blue-950 bg-opacity-20 backdrop-blur-sm shadow-md">
                   <Hamster size={28} className="text-white" />
                 </div>
-                <div>
-                  <p className="text-white text-lg font-semibold">
+                <div className="">
+                  <p className="text-white font-semibold">
                     {telegramUser?.fullName}
                   </p>
                   <p className="text-white text-opacity-80 text-xs">
@@ -300,15 +302,15 @@ const BotWeb = () => {
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col items-end bg-white bg-opacity-20 backdrop-blur-sm rounded-xl px-4 py-2 shadow-md space-y-1">
+              <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl px-3 py-2 shadow-md space-y-1">
                 <div className="flex items-center space-x-1">
-                  <img src={dollarCoin} alt="Dollar Coin" className="w-4 h-4" />
-                  <p className="text-white text-base font-bold">
-                    Total coin: {totalCoins}
+                  <img src={dollarCoin} alt="Dollar Coin" className="w-3 h-3" />
+                  <p className="text-white text-lg">
+                    Сoin: <strong>{totalCoins}</strong>
                   </p>
                 </div>
-                <div className="text-white text-xs">
-                  ⚡ Energy: {totalEnergy}
+                <div className="text-white text-sm">
+                  ⚡ Energy: <strong>{totalEnergy}</strong>
                 </div>
               </div>
             </div>
@@ -345,7 +347,7 @@ const BotWeb = () => {
           </div>
         )}
         {/* Main Content */}
-        <div className="flex-grow flex flex-col px-6 bg-gray-100 rounded-3xl shadow-inner z-0">
+        <div style={{backgroundImage: `url(${mainBg})`}} className="flex-grow bg-cover flex flex-col px-6 bg-gradient-to-b from-blue-900 to-gray-800 rounded-3xl shadow-inner z-0">
           {/* Daily Activities */}
           <div className="grid grid-cols-3 gap-3 w-full py-4">
             {[
@@ -397,14 +399,14 @@ const BotWeb = () => {
           <div className="flex-grow flex items-center justify-center">
             <div className="relative flex justify-center items-center">
               <div
-                className="click-card w-64 h-64 rounded-full bg-gradient-to-br from-yellow-200 to-yellow-400 shadow-xl flex items-center justify-center cursor-pointer transition-transform duration-300 relative"
+                className="click-card w-80 h-80 rounded-full  shadow-xl flex items-center justify-center cursor-pointer transition-transform duration-300 relative"
                 onClick={handleCardClick}
               >
                 <div className="absolute inset-0 rounded-full bg-white bg-opacity-20 backdrop-blur-sm border-4 border-white border-opacity-30 z-0"></div>
                 <img
                   src={mainCharacter}
                   alt="Main Character"
-                  className="w-40 h-40 transform hover:scale-110 transition-transform duration-300 z-10"
+                  className="max-w-52 h-auto transform hover:scale-110 transition-transform duration-300 z-10"
                 />
                 <div className="absolute inset-0 rounded-full shadow-inner z-0"></div>
               </div>
